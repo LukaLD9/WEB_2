@@ -1,10 +1,43 @@
-import express from 'express'
+import express, { Application, Request, Response} from 'express'
 import cors from 'cors'
 import { auth } from 'express-oauth2-jwt-bearer'; //claimCheck, requireScope, ...
 import axios from 'axios'
+import Database from './config/database';
+import CompetitionRouter from './router/CompetitionRouter';
+import UserInfoRouter from './router/UserInfoRouter';
 
-const app = express();
-app.use(cors());
+class App {
+  public app: Application;
+
+  constructor() {
+    this.app = express();
+    this.databaseSync();
+    this.plugins();
+    this.routes();
+  }
+
+  protected plugins(): void {
+    this.app.use(express.json());
+    this.app.use(express.urlencoded({ extended: true }));
+  }
+
+  protected databaseSync(): void {
+    const db = new Database();
+    db.sequelize?.sync();
+  }
+
+  protected routes(): void {
+    this.app.use(cors());
+    this.app.route('/').get((req: Request, res: Response) => {
+      res.send("welcome to the api")
+    });
+
+    this.app.use("/api/v1/user", UserInfoRouter);
+  }
+}
+
+const app = new App().app;
+//app.use(cors());
 
 //const port = process.env.PORT || 8080;
 
