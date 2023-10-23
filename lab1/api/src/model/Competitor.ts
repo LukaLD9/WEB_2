@@ -16,40 +16,34 @@ export class Competitor extends Model {
     @Column({
         type: DataType.INTEGER,
         primaryKey: true,
-        autoIncrement: true,
-        field: Competitor.COMPETITOR_ID,
+        autoIncrement: true
     })
     id!: number;
 
     @Column({
-        type: DataType.STRING(255),
-        field: Competitor.COMPETITOR_NAME,
+        type: DataType.STRING(255)
     })
     name!: string;
 
     @Column({
-        type: DataType.INTEGER,
-        field: Competitor.COMPETITOR_POINTS,
+        type: DataType.INTEGER
     })
     points!: number;
 
     @Column({
-        type: DataType.INTEGER,
-        field: Competitor.COMPETITOR_WON,
+        type: DataType.INTEGER
     })
     won!: number;
 
     @Column({
-        type: DataType.INTEGER,
-        field: Competitor.COMPETITOR_LOST,
+        type: DataType.INTEGER
     })
     lost!: number;
 
     @ForeignKey(() => Competition)
     @Column({
         type: DataType.INTEGER,
-        allowNull: false,
-        field: Competition.COMPETITION_ID,
+        allowNull: false
     })
     id_competition!: number;
 

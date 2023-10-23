@@ -5,6 +5,8 @@ import axios from 'axios'
 import Database from './config/database';
 import CompetitionRouter from './router/CompetitionRouter';
 import UserInfoRouter from './router/UserInfoRouter';
+import CompetitorRouter from './router/CompetitorRouter';
+import ResultRouter from './router/ResultRouter';
 
 class App {
   public app: Application;
@@ -33,6 +35,10 @@ class App {
     });
 
     this.app.use("/api/v1/user", UserInfoRouter);
+    this.app.use("/api/v1/competition", CompetitionRouter);
+    this.app.use("/api/v1/competitor", CompetitorRouter);
+    this.app.use("/api/v1/competition", CompetitionRouter);
+    this.app.use("/api/v1/result", ResultRouter);
   }
 }
 
@@ -88,3 +94,15 @@ const port = 5000;
 app.listen(port, hostname, () => {
   console.log(`Web API running at http://${hostname}:${port}/`);
 });
+
+
+/*
+
+"dev": "concurrently \"tsc -w\" \"nodemon dist/index.js\"",
+    "build": "npm run clean && tsc && npm run copy-public",
+    "clean": "if exist dist rmdir /s /q dist",
+    "copy-public": "robocopy /mir /NFL /NDL /NJH /NJS /nc /ns /np src/public/ dist/public & exit 0",
+    "start": "concurrently --kill-others \"npm:web-service\"",
+    "web-service": "node dist/server.js"
+
+*/
