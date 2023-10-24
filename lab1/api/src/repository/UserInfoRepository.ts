@@ -58,6 +58,7 @@ export class UserInfoRepo implements IUserInfoRepo {
         where: {
           id: userInfoId,
         },
+        rejectOnEmpty: true,
       });
       if (!new_userInfo) {
         throw new Error("userInfo not found!");

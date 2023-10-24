@@ -30,6 +30,9 @@ class Database {
       host: this.POSTGRES_HOST,
       port: this.POSTGRES_PORT,
       dialect: "postgres",
+      define: {
+        timestamps: false,
+      },
       models:[UserInfo, Competition, Competitor, Result]
     });
 

@@ -3,7 +3,7 @@ import { UserInfo } from "./UserInfo";
 import { Competitor } from "./Competitor";
 
 @Table({
-  tableName: Competition.COMPETITION_TABLE_NAME,
+  tableName: "competition",
 })
 export class Competition extends Model {
     public static COMPETITION_TABLE_NAME = "competition" as string;

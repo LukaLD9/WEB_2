@@ -70,6 +70,7 @@ class UserInfoController {
       res.status(500).json({
         status: "Internal Server Error!",
         message: "Internal Server Error!",
+        error: err.message,
       });
     }
   }

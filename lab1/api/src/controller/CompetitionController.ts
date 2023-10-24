@@ -46,6 +46,7 @@ class CompetitionController {
     try {
       let id = parseInt(req.params["id"]);
       const new_competition = await new CompetitionRepo().retrieveById(id);
+      console.log(new_competition);
 
       res.status(200).json({
         status: "Ok!",
@@ -56,6 +57,7 @@ class CompetitionController {
       res.status(500).json({
         status: "Internal Server Error!",
         message: "Internal Server Error!",
+        error: err.message,
       });
     }
   }
