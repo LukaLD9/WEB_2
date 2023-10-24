@@ -15,7 +15,7 @@ function App() {
   async function callProtectedApi() {
     try {
       const token = await getAccessTokenSilently()
-      const response = await axios.get('http://localhost:5000/protected', {
+      const response = await axios.get('http://localhost:5000/api/match', {
         headers: {
           Authorization: `Bearer ${token}`
         }
