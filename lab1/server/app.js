@@ -39,9 +39,9 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api/competition", CompetitionRouter);
 app.use("/api/competitor", CompetitorRouter);
+app.use("/api/match", MatchRouter);
 
 app.use(jwtCheck);
-app.use("/api/match", MatchRouter);
 
 
 

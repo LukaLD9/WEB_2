@@ -43,4 +43,14 @@ router.post('/create', async function(req, res, next) {
     }
 });
 
+router.get('/system/:id', async function(req, res, next) {
+    try {
+        let result = await Competition.dbGetCompetitionSystem(req.params.id);
+        console.log(result);
+        res.json(result);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 module.exports = router;

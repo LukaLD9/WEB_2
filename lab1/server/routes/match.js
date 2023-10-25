@@ -22,20 +22,19 @@ router.get('/:id', async function(req, res, next) {
     }
 });
 
-router.put('/', async function(req, res, next) {
+router.get('/check/:id', async function(req, res, next) {
     try {
-        let match = new Match(
-            req.body.idMatch,
-            req.body.scoreFirst,
-            req.body.scoreSecond,
-            req.body.round,
-            req.body.date,
-            req.body.played,
-            req.body.idCompetition,
-            req.body.idCompetitorFirst,
-            req.body.idCompetitorSecond
-        );
-        let result = await Match.dbUpdateMatch(match);
+        let result = await Match.dbCheckMatchDateInPast(req.params.id);
+        console.log(result);
+        res.json(result);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
+router.put('/result', async function(req, res, next) {
+    try {
+        let result = await Match.dbUpdateMatchResult(req.body.idMatch, req.body.scoreFirst, req.body.scoreSecond);
         res.json(result);
     } catch (err) {
         res.status(500).json(err);

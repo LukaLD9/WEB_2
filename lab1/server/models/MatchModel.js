@@ -1,4 +1,5 @@
 const db = require('../db');
+var Competitor = require('./CompetitorModel');
 
 class Match {
     constructor(
@@ -45,6 +46,38 @@ class Match {
         const values = [match.scoreFirst, match.scoreSecond, match.round, match.date, match.played, match.idCompetition, match.idCompetitorFirst, match.idCompetitorSecond, match.idMatch];
         const result = await db.query(query, values);
         return result;
+    }
+
+    // return true if match date is in the past
+    static async dbCheckMatchDateInPast(id) {
+        const query = "SELECT date FROM match WHERE idMatch = $1";
+        const values = [id];
+        const result = await db.query(query, values);
+        if(result[0].date < new Date()) {
+            return true;
+        }
+        return false;
+    }
+
+    static async dbUpdateMatchResult(idMatch, scoreFirst, scoreSecond) {
+        const isDateInPast = await Match.dbCheckMatchDateInPast(idMatch);
+        if(isDateInPast) {
+            const query = "UPDATE match SET scoreFirst = $1, scoreSecond = $2, played = true WHERE idMatch = $3 RETURNING *";
+            const values = [scoreFirst, scoreSecond, idMatch];
+            const result = await db.query(query, values);
+            const idCompetition = result[0].idcompetition;
+            const idCompetitorFirst = result[0].idcompetitorfirst;
+            const idCompetitorSecond = result[0].idcompetitorsecond;
+            if(scoreFirst > scoreSecond) { // 1
+                return await Competitor.dbUpdateCompetitors(idCompetitorFirst, idCompetitorSecond, idCompetition, 1);
+            } else if(scoreFirst < scoreSecond) { // 2
+                return await Competitor.dbUpdateCompetitors(idCompetitorFirst, idCompetitorSecond, idCompetition, 2);
+            } else { // x
+                return await Competitor.dbUpdateCompetitors(idCompetitorFirst, idCompetitorSecond, idCompetition, 0);
+            }
+        } else {
+            return false;
+        }
     }
 
 }
