@@ -37,6 +37,7 @@ const sql_create_competitor =
       Points INT NOT NULL,
       Won INT NOT NULL,
       Lost INT NOT NULL,
+      Draw INT NOT NULL,
       IdCompetition INT NOT NULL,
       FOREIGN KEY (IdCompetition) REFERENCES Competition(IdCompetition)
     );`
@@ -66,10 +67,10 @@ const sql_insert_competition =
     VALUES ('Competition1', '3/1/0', 'google-oauth2|100000000000000000000');`
 
 const sql_insert_competitor =
-    `INSERT INTO Competitor(Name, Points, Won, Lost, IdCompetition)
-    VALUES ('Competitor1', 0, 0, 0, 1);
-    INSERT INTO Competitor(Name, Points, Won, Lost, IdCompetition)
-    VALUES ('Competitor2', 0, 0, 0, 1);`
+    `INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
+    VALUES ('Competitor1', 0, 0, 0, 0, 1);
+    INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
+    VALUES ('Competitor2', 0, 0, 0, 0, 1);`
 
 const sql_insert_match =
     `INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)

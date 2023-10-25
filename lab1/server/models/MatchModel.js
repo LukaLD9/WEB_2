@@ -59,6 +59,22 @@ class Match {
         return false;
     }
 
+    // return if match was played
+    static async dbCheckMatchPlayed(id) {
+        const query = "SELECT played FROM match WHERE idMatch = $1";
+        const values = [id];
+        const result = await db.query(query, values);
+        return result[0].played;
+    }
+
+    // return result of match
+    static async dbGetMatchResult(id) {
+        const query = "SELECT scoreFirst, scoreSecond FROM match WHERE idMatch = $1";
+        const values = [id];
+        const result = await db.query(query, values);
+        return result[0];
+    }
+
     static async dbUpdateMatchResult(idMatch, scoreFirst, scoreSecond) {
         const isDateInPast = await Match.dbCheckMatchDateInPast(idMatch);
         if(isDateInPast) {
@@ -68,17 +84,76 @@ class Match {
             const idCompetition = result[0].idcompetition;
             const idCompetitorFirst = result[0].idcompetitorfirst;
             const idCompetitorSecond = result[0].idcompetitorsecond;
-            if(scoreFirst > scoreSecond) { // 1
-                return await Competitor.dbUpdateCompetitors(idCompetitorFirst, idCompetitorSecond, idCompetition, 1);
-            } else if(scoreFirst < scoreSecond) { // 2
-                return await Competitor.dbUpdateCompetitors(idCompetitorFirst, idCompetitorSecond, idCompetition, 2);
-            } else { // x
-                return await Competitor.dbUpdateCompetitors(idCompetitorFirst, idCompetitorSecond, idCompetition, 0);
-            }
+
+            const result1 = await Match.dbUpdateCompetitorPoints(idCompetitorFirst);
+            const result2 = await Match.dbUpdateCompetitorPoints(idCompetitorSecond);
+            return [result1[0], result2[0]];
         } else {
             return false;
         }
     }
+
+    // loop through all matches and update points, won, lost
+    // in match he can be competitor1 or competitor2
+    static async dbUpdateCompetitorPoints(idCompetitor) {
+        let matches = await Match.dbGetAllMatchesByCompetitorId(idCompetitor);
+        matches = matches.filter(match => match.played === true);
+
+        const idCompetition = matches[0].idcompetition;
+        let system = await Competitor.dbGetCompetitionSystem(idCompetition);
+        let systemParts = system.split("/");
+        const win = parseInt(systemParts[0]);
+        const draw = parseInt(systemParts[1]);
+        const lose = parseInt(systemParts[2]);
+
+        let points = 0;
+        let won = 0;
+        let lost = 0;
+        let drawed = 0;
+
+        for (let i = 0; i < matches.length; i++) {
+            if(matches[i].idcompetitorfirst == idCompetitor){ 
+                // he was first and won
+                if(matches[i].scorefirst > matches[i].scoresecond){
+                    points += win;
+                    won += 1;
+                } else if(matches[i].scorefirst < matches[i].scoresecond){
+                    points += lose;
+                    lost += 1;
+                } else {
+                    points += draw;
+                    drawed += 1;
+                }
+            } else {
+                if(matches[i].scorefirst < matches[i].scoresecond){
+                    points += win;
+                    won += 1;
+                } else if(matches[i].scorefirst > matches[i].scoresecond){
+                    points += lose;
+                    lost += 1;
+                } else {
+                    points += draw;
+                    drawed += 1;
+                }
+            }
+        }
+
+        const query = "UPDATE competitor SET points = $1, won = $2, lost = $3, draw = $4 WHERE idcompetitor = $5 RETURNING *";
+        const values = [points, won, lost, drawed, idCompetitor];
+        const result = await db.query(query, values);
+        return result;
+
+    }
+
+    
+    // get all maches by competitor id, where he is first competitor or second competitor
+    static async dbGetAllMatchesByCompetitorId(id) {
+        const query = "SELECT * FROM match WHERE idcompetitorfirst = $1 OR idcompetitorsecond = $1";
+        const values = [id];
+        const result = await db.query(query, values);
+        return result;
+    }
+
 
 }
 
