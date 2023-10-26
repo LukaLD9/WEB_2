@@ -1,5 +1,6 @@
 const db = require('../db');
 var Competitor = require('./CompetitorModel');
+var User = require('./UserModel');
 
 class Competition {
     constructor(
@@ -58,6 +59,10 @@ class Competition {
 
     // function to create a competition, competitors and matches with round robin system
     static async dbCreateCompetitionWithCompetitorsAndMatches(competition, competitorNames) {
+        // check if user exists, if not insert
+        let user = await User.dbCheckUser(competition.idUser);
+        console.log("User:", user);
+
         // insert competition
         let result = await Competition.dbInsertCompetition(competition);
         const idCompetition = result[0].idcompetition;

@@ -12,6 +12,16 @@ router.get('/', async function(req, res, next) {
     }
 });
 
+router.get('/user/:id', async function(req, res, next) {
+    try {
+        let result = await Competition.dbGetCompetitionsByUserId(req.params.id);
+        console.log(result);
+        res.json(result);
+    } catch (err) {
+        res.status(500).json(err);
+    }
+});
+
 router.post('/', async function(req, res, next) {
     try {
         let competition = new Competition(

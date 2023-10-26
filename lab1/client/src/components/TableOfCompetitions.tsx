@@ -10,30 +10,32 @@ import React from "react";
 import { Button } from "@nextui-org/react";
 import { useNavigate } from "react-router-dom";
 import CreateCompetition from "./CreateCompetition";
+import axios from "axios";
+import { useAuth0 } from "@auth0/auth0-react";
+import ICompetitionData from "../interface/ICompetitionData";
 
-
-const rows = [
-    {
-      key: "1",
-      name: "Tony Reichert",
-      system: "CEO",
-    },
-    {
-      key: "2",
-      name: "Zoey Lang",
-      system: "Technical Lead",
-    },
-    {
-      key: "3",
-      name: "Jane Fisher",
-      system: "Senior Developer",
-    },
-    {
-      key: "4",
-      name: "William Howard",
-      system: "Community Manager",
-    },
-  ];
+// const rows = [
+//     {
+//       key: "1",
+//       name: "Tony Reichert",
+//       system: "CEO",
+//     },
+//     {
+//       key: "2",
+//       name: "Zoey Lang",
+//       system: "Technical Lead",
+//     },
+//     {
+//       key: "3",
+//       name: "Jane Fisher",
+//       system: "Senior Developer",
+//     },
+//     {
+//       key: "4",
+//       name: "William Howard",
+//       system: "Community Manager",
+//     },
+//   ];
 
 
 const columns = [
@@ -52,11 +54,28 @@ const columns = [
 ]
 
 function TableOfCompetitions() {
+    // get userid from auth0
+    const { user } = useAuth0();
+    const userid = user?.sub;
+
     // iz api dohvati sva natjecanja i prikazi ih u tablici
+
+    const [competitions, setCompetitions] = React.useState<ICompetitionData[]>([]);
+
+    
+    React.useEffect(() => {
+        axios.get(`http://localhost:5000/api/competition/user/${userid}`)
+        .then((response) => {
+            setCompetitions(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }, []);
+    
 
     const navigate = useNavigate();
 
-    //  <TableBody emptyContent={"No rows to display."}>{[]}</TableBody>
     return (
         <div className="flex flex-col h-screen">
             <div className="flex justify-center items-center w-3-4">
@@ -70,17 +89,19 @@ function TableOfCompetitions() {
                             </TableColumn>
                             )}
                         </TableHeader>
-                        <TableBody items={rows}>
+                        <TableBody 
+                            emptyContent={"You have no competitions yet!"}
+                            items={competitions}>
                             {(item) => (
-                            <TableRow key={item.key}>
+                            <TableRow key={item.idcompetition}>
                                 {(columnKey) =>  
                                     columnKey === "actions" ?
                                     <TableCell>
                                         <div className="flex justify-center">
-                                            <Button className="mr-4 ml-4" onClick={() => navigate(`table/${item.key}`)}>
+                                            <Button className="mr-4 ml-4" onClick={() => navigate(`table/${item.idcompetition}`)}>
                                                 Table
                                             </Button>
-                                            <Button className="mr-4 ml-4" onClick={() => navigate(`schedule/${item.key}`)}>
+                                            <Button className="mr-4 ml-4" onClick={() => navigate(`schedule/${item.idcompetition}`)}>
                                                 Schedule
                                             </Button>
                                         </div>

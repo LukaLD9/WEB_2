@@ -26,7 +26,7 @@ const sql_create_competition =
       IdCompetition INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
       System VARCHAR(16) NOT NULL,
       IdUser VARCHAR(255) NOT NULL,
-      FOREIGN KEY (IdUser) REFERENCES Users(IdUser)
+      FOREIGN KEY (IdUser) REFERENCES Users(IdUser) ON DELETE CASCADE
     );`
 
 const sql_create_competitor =
@@ -39,7 +39,7 @@ const sql_create_competitor =
       Lost INT NOT NULL,
       Draw INT NOT NULL,
       IdCompetition INT NOT NULL,
-      FOREIGN KEY (IdCompetition) REFERENCES Competition(IdCompetition)
+      FOREIGN KEY (IdCompetition) REFERENCES Competition(IdCompetition) ON DELETE CASCADE
     );`
 
 const sql_create_match =
@@ -54,9 +54,9 @@ const sql_create_match =
       IdCompetition INT NOT NULL,
       IdCompetitorFirst INT NOT NULL,
       IdCompetitorSecond INT NOT NULL,
-      FOREIGN KEY (IdCompetition) REFERENCES Competition(IdCompetition),
-      FOREIGN KEY (IdCompetitorFirst) REFERENCES Competitor(IdCompetitor),
-      FOREIGN KEY (IdCompetitorSecond) REFERENCES Competitor(IdCompetitor)
+      FOREIGN KEY (IdCompetition) REFERENCES Competition(IdCompetition) ON DELETE CASCADE,
+      FOREIGN KEY (IdCompetitorFirst) REFERENCES Competitor(IdCompetitor) ON DELETE CASCADE,
+      FOREIGN KEY (IdCompetitorSecond) REFERENCES Competitor(IdCompetitor) ON DELETE CASCADE
     );`
 
 
