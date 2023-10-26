@@ -4,13 +4,12 @@ import {  Table,
     TableColumn,
     TableRow,
     TableCell,
-    getKeyValue,
-    User,
-    Chip,
-    Tooltip
 } from "@nextui-org/react";
 import React from "react";
 import { Button } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
+import CreateCompetition from "./CreateCompetition";
+
 
 const rows = [
     {
@@ -54,26 +53,19 @@ const columns = [
 function TableOfCompetitions() {
     // iz api dohvati sva natjecanja i prikazi ih u tablici
 
+    const navigate = useNavigate();
 
     const renderCell = React.useCallback((user : any , columnKey : any) => {
         const cellValue = user[columnKey];
     
         switch (columnKey) {
-          case "name":
-            return (
-              cellValue
-            );
-          case "system":
-            return (
-                cellValue
-            );
           case "actions":
             return (
                 <div className="flex justify-center">
-                    <Button className="mr-4 ml-4">
+                    <Button className="mr-4 ml-4" onClick={() => navigate(`table/${user.key}`)}>
                         Table
                     </Button>
-                    <Button className="mr-4 ml-4">
+                    <Button className="mr-4 ml-4" onClick={() => navigate(`schedule/${user.key}`)}>
                         Schedule
                     </Button>
                 </div>
@@ -105,7 +97,7 @@ function TableOfCompetitions() {
                         </TableBody>
                     </Table>
                     <div className="flex justify-center mt-4">
-                        <Button className="">Create new competition</Button>
+                        <CreateCompetition />
                     </div>
                 </div>
             </div>

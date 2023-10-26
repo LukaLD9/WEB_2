@@ -27,7 +27,6 @@ function CompetitionTable() {
     }, [])
 
 
-
     return (
         <div>
             <NavigationBar />

@@ -4,7 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 
 export default function NavigationBar() {
 
-  const { loginWithRedirect, logout, isAuthenticated, user, getAccessTokenSilently } = useAuth0()
+  const { loginWithRedirect, logout, isAuthenticated }  = useAuth0()
 
   return (
     <Navbar position="static" isBordered>

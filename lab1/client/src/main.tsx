@@ -12,7 +12,7 @@ import {
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <NextUIProvider>
-    <main className="dark text-foreground bg-background">
+    <main className="light text-foreground bg-background">
       <BrowserRouter>
         <Auth0Provider
           domain='dev-gl3jwk8s5jnx4xpd.us.auth0.com'

@@ -5,12 +5,7 @@ import {  Table,
     TableRow,
     TableCell,
     getKeyValue,
-    User,
-    Chip,
-    Tooltip
 } from "@nextui-org/react";
-import React from "react";
-import { Button } from "@nextui-org/react";
 
 const rows = [
     {
