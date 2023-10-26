@@ -4,6 +4,7 @@ import {  Table,
     TableColumn,
     TableRow,
     TableCell,
+    getKeyValue
 } from "@nextui-org/react";
 import React from "react";
 import { Button } from "@nextui-org/react";
@@ -55,25 +56,6 @@ function TableOfCompetitions() {
 
     const navigate = useNavigate();
 
-    const renderCell = React.useCallback((user : any , columnKey : any) => {
-        const cellValue = user[columnKey];
-    
-        switch (columnKey) {
-          case "actions":
-            return (
-                <div className="flex justify-center">
-                    <Button className="mr-4 ml-4" onClick={() => navigate(`table/${user.key}`)}>
-                        Table
-                    </Button>
-                    <Button className="mr-4 ml-4" onClick={() => navigate(`schedule/${user.key}`)}>
-                        Schedule
-                    </Button>
-                </div>
-            );
-          default:
-            return cellValue;
-        }
-      }, []);
     //  <TableBody emptyContent={"No rows to display."}>{[]}</TableBody>
     return (
         <div className="flex flex-col h-screen">
@@ -91,7 +73,21 @@ function TableOfCompetitions() {
                         <TableBody items={rows}>
                             {(item) => (
                             <TableRow key={item.key}>
-                                {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}
+                                {(columnKey) =>  
+                                    columnKey === "actions" ?
+                                    <TableCell>
+                                        <div className="flex justify-center">
+                                            <Button className="mr-4 ml-4" onClick={() => navigate(`table/${item.key}`)}>
+                                                Table
+                                            </Button>
+                                            <Button className="mr-4 ml-4" onClick={() => navigate(`schedule/${item.key}`)}>
+                                                Schedule
+                                            </Button>
+                                        </div>
+                                    </TableCell>
+                                    :
+                                    <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                                }
                             </TableRow>
                             )}
                         </TableBody>
