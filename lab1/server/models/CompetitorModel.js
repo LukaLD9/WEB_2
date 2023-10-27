@@ -33,8 +33,15 @@ class Competitor {
         return result;
     }
 
+    // get all competitors by competition id and order by points
+    // also get the competition name
     static async dbGetAllCompetitorsByCompetitionId(id) {
-        const query = "SELECT * FROM competitor WHERE idcompetition = $1";
+        const query = ` SELECT competitor.*, competition.name AS competitionName
+                        FROM competitor
+                        INNER JOIN competition
+                        ON competitor.idcompetition = competition.idcompetition
+                        WHERE competitor.idcompetition = $1
+                        ORDER BY points DESC`;
         const values = [id];
         const result = await db.query(query, values);
         return result;

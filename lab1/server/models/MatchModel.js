@@ -59,6 +59,7 @@ class Match {
         return false;
     }
 
+    /*
     // return if match was played
     static async dbCheckMatchPlayed(id) {
         const query = "SELECT played FROM match WHERE idMatch = $1";
@@ -66,6 +67,7 @@ class Match {
         const result = await db.query(query, values);
         return result[0].played;
     }
+    */
 
     // return result of match
     static async dbGetMatchResult(id) {
@@ -76,8 +78,8 @@ class Match {
     }
 
     static async dbUpdateMatchResult(idMatch, scoreFirst, scoreSecond) {
-        const isDateInPast = await Match.dbCheckMatchDateInPast(idMatch);
-        if(isDateInPast) {
+        //const isDateInPast = await Match.dbCheckMatchDateInPast(idMatch);
+       // if(isDateInPast) {
             const query = "UPDATE match SET scoreFirst = $1, scoreSecond = $2, played = true WHERE idMatch = $3 RETURNING *";
             const values = [scoreFirst, scoreSecond, idMatch];
             const result = await db.query(query, values);
@@ -88,9 +90,9 @@ class Match {
             const result1 = await Match.dbUpdateCompetitorPoints(idCompetitorFirst);
             const result2 = await Match.dbUpdateCompetitorPoints(idCompetitorSecond);
             return [result1[0], result2[0]];
-        } else {
-            return false;
-        }
+        // } else {
+        //     return false;
+        // }
     }
 
     // loop through all matches and update points, won, lost

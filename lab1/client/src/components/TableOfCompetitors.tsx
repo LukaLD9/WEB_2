@@ -5,34 +5,13 @@ import {  Table,
     TableRow,
     TableCell,
     getKeyValue,
+    Button,
 } from "@nextui-org/react";
-
-const rows = [
-    {
-        key: "1",
-        name: "Tony Reichert",
-        won: "1",
-        lost: "0",
-        draw: "0",
-        points: "3"
-    },
-    {
-        key: "2",
-        name: "Zoey Lang",
-        won: "0",
-        lost: "1",
-        draw: "0",
-        points: "0"
-    },
-    {
-        key: "3",
-        name: "Jane Fisher",
-        won: "0",
-        lost: "0",
-        draw: "1",
-        points: "1"
-    },
-  ];
+import React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import ICompetitorData from "../interface/ICompetitorData";
 
 
 const columns = [
@@ -60,12 +39,36 @@ const columns = [
 
 function TableOfCompetitors() {
 
-    //  <TableBody emptyContent={"No rows to display."}>{[]}</TableBody>
+    // get userid from auth0
+    const { user } = useAuth0();
+    const userid = user?.sub;
+
+    // get competitionid from url
+    const url = window.location.href;
+    const competitionid = url.substring(url.lastIndexOf('/') + 1);
+
+    const navigate = useNavigate();
+
+    // iz api dohvati sva natjecanja i prikazi ih u tablici
+
+    const [competitors, setCompetitors] = React.useState<ICompetitorData[]>([]);
+
+    
+    React.useEffect(() => {
+        axios.get(`http://localhost:5000/api/competitor/byCompetition/${competitionid}`)
+        .then((response) => {
+            setCompetitors(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }, []);
+
     return (
         <div className="flex flex-col h-screen">
             <div className="flex justify-center items-center w-3-4">
                 <div className="w-3/4">
-                    <h1 className="text-xl font-bold text-center mb-4 mt-4">Competition name</h1>
+                    <h1 className="text-xl font-bold text-center mb-4 mt-4">{competitors[0].competitionname}</h1>
                     <Table aria-label="Example table with custom cells">
                         <TableHeader columns={columns}>
                             {(column) => (
@@ -74,14 +77,21 @@ function TableOfCompetitors() {
                             </TableColumn>
                             )}
                         </TableHeader>
-                        <TableBody items={rows}>
+                        <TableBody
+                            emptyContent={"There are no competitors yet! "}
+                            items={competitors}>
                             {(item) => (
-                            <TableRow key={item.key}>
+                            <TableRow key={item.idcompetitor}>
                                 {(columnKey) => <TableCell>{getKeyValue(item,columnKey)}</TableCell>}
                             </TableRow>
                             )}
                         </TableBody>
                     </Table>
+                    <div className="flex justify-center mt-4">
+                        <Button className="mr-4 ml-4" onClick={() => navigate(`/schedule/${competitionid}`)}>
+                                                Schedule
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>

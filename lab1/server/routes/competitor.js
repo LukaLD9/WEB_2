@@ -3,7 +3,7 @@ var Competitor = require('../models/CompetitorModel');
 const { route } = require('./match');
 var router = express.Router();
 
-router.get('/:id', async function(req, res, next) {
+router.get('/byCompetition/:id', async function(req, res, next) {
     try {
         let result = await Competitor.dbGetAllCompetitorsByCompetitionId(req.params.id);
         console.log(result);
@@ -13,6 +13,9 @@ router.get('/:id', async function(req, res, next) {
     }
 });
 
+
+
+/*
 router.post('/withName', async function(req, res, next) {
     try {
         let names = req.body.names;
@@ -33,6 +36,7 @@ router.get('/competitionId/:id', async function(req, res, next) {
         res.status(500).json(err);
     }
 });
+*/
 
 
 
