@@ -24,13 +24,6 @@ class Match {
         this.idCompetitorSecond = idCompetitorSecond;
     }
 
-    // get all matches
-    static async dbGetAllMatches() {
-        const query = "SELECT * FROM match";
-        const result = await db.query(query);
-        return result;
-    }
-
 
     // get all matches by competition id
     // with name of competition is in match name of competitors is in match and their score is in match, id od match and date
@@ -52,13 +45,6 @@ class Match {
         return result;
     }
 
-    // update match
-    static async dbUpdateMatch(match) {
-        const query = "UPDATE match SET scoreFirst = $1, scoreSecond = $2, round = $3, date = $4, played = $5, idCompetition = $6, idCompetitorFirst = $7, idCompetitorSecond = $8 WHERE idMatch = $9 RETURNING *";
-        const values = [match.scoreFirst, match.scoreSecond, match.round, match.date, match.played, match.idCompetition, match.idCompetitorFirst, match.idCompetitorSecond, match.idMatch];
-        const result = await db.query(query, values);
-        return result;
-    }
 
     // return true if match date is in the past
     static async dbCheckMatchDateInPast(id) {
@@ -71,23 +57,6 @@ class Match {
         return false;
     }
 
-    /*
-    // return if match was played
-    static async dbCheckMatchPlayed(id) {
-        const query = "SELECT played FROM match WHERE idMatch = $1";
-        const values = [id];
-        const result = await db.query(query, values);
-        return result[0].played;
-    }
-    */
-
-    // return result of match
-    static async dbGetMatchResult(id) {
-        const query = "SELECT scoreFirst, scoreSecond FROM match WHERE idMatch = $1";
-        const values = [id];
-        const result = await db.query(query, values);
-        return result[0];
-    }
 
     static async dbUpdateMatchResult(idMatch, scoreFirst, scoreSecond) {
         //const isDateInPast = await Match.dbCheckMatchDateInPast(idMatch);

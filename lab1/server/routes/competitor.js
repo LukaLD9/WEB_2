@@ -14,34 +14,6 @@ router.get('/byCompetition/:id', async function(req, res, next) {
 });
 
 
-
-/*
-router.post('/withName', async function(req, res, next) {
-    try {
-        let names = req.body.names;
-        let idCompetition = req.body.idCompetition;
-        let result = await Competitor.dbInsertCompetitorsNames(names, idCompetition);
-        res.json(result);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
-
-router.get('/competitionId/:id', async function(req, res, next) {
-    try {
-        let result = await Competitor.dbGetCompetitionIdOfCompetitor(req.params.id);
-        console.log(result);
-        res.json(result);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
-*/
-
-
-
-
-
 module.exports = router;
 
 

@@ -2,15 +2,6 @@ var express = require('express');
 var Match = require('../models/MatchModel');
 var router = express.Router();
 
-router.get('/', async function(req, res, next) {
-    try {
-        let result = await Match.dbGetAllMatches();
-        res.json(result);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
-
 
 router.get('/byCompetition/:id', async function(req, res, next) {
     try {
@@ -22,15 +13,6 @@ router.get('/byCompetition/:id', async function(req, res, next) {
     }
 });
 
-router.get('/check/:id', async function(req, res, next) {
-    try {
-        let result = await Match.dbCheckMatchDateInPast(req.params.id);
-        console.log(result);
-        res.json(result);
-    } catch (err) {
-        res.status(500).json(err);
-    }
-});
 
 router.put('/result', async function(req, res, next) {
     try {

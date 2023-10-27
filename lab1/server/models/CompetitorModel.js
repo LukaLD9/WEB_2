@@ -17,21 +17,6 @@ class Competitor {
         this.idCompetition = idCompetition;
     }
 
-    // get competitor by id
-    static async dbGetCompetitorById(id) {
-        const query = "SELECT * FROM competitor WHERE idCompetitor = $1";
-        const values = [id];
-        const result = await db.query(query, values);
-        return result;
-    }
-
-    // update competitor
-    static async dbUpdateCompetitor(competitor) {
-        const query = "UPDATE competitor SET name = $1, points = $2, won = $3, lost = $4, draw= $5, idCompetition = $6 WHERE idCompetitor = $7 RETURNING *";
-        const values = [competitor.name, competitor.points, competitor.won, competitor.lost, competitor.draw, competitor.idcompetition, competitor.idcompetitor];
-        const result = await db.query(query, values);
-        return result;
-    }
 
     // get all competitors by competition id and order by points
     // also get the competition name
@@ -47,13 +32,6 @@ class Competitor {
         return result;
     }
 
-    // insert competitor
-    static async dbInsertCompetitor(competitor) {
-        const query = "INSERT INTO competitor(name, points, won, lost, draw, idCompetition) VALUES($1, $2, $3, $4, $5, $6) RETURNING *";
-        const values = [competitor.name, competitor.points, competitor.won, competitor.lost, competitor.draw, competitor.idCompetition];
-        const result = await db.query(query, values);
-        return result;
-    }
 
     static async dbInsertCompetitorWithName(name, idCompetition) {
         const query = "INSERT INTO competitor(name, points, won, lost, draw, idCompetition) VALUES($1, $2, $3, $4, $5, $6) RETURNING *";
@@ -80,7 +58,7 @@ class Competitor {
         }
         return competitors;
     }
-
+    
 
     // get system of competition
     static async dbGetCompetitionSystem(id) {

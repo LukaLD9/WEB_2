@@ -17,15 +17,19 @@ import { useAuth0 } from "@auth0/auth0-react";
 // Function to validate the data before sending it to the API
 function validateData(data: any) {
   if (data.name.length === 0) {
+    window.alert("Name is required!");
     return false;
   }
   if (data.winPoints < 0 || data.winPoints > 100) {
+    window.alert("Win points should be between 0 and 100!");
     return false;
   }
   if (data.drawPoints < 0 || data.drawPoints > 100) {
+    window.alert("Draw points should be between 0 and 100!");
     return false;
   }
   if (data.lossPoints < 0 || data.lossPoints > 100) {
+    window.alert("Loss points should be between 0 and 100!");
     return false;
   }
   if (data.competitors.split(/[\n;]/)
@@ -34,6 +38,7 @@ function validateData(data: any) {
   data.competitors.split(/[\n;]/)
     .filter((competitor: string) => competitor.length > 0)
     .length > 8) {
+    window.alert("Competitors are required, 4 to 8!");
     return false;
   }
   return true;
@@ -127,6 +132,7 @@ export default function CreateCompetition() {
                         placeholder="Enter points"
                         type="number"
                         variant="bordered"
+                        isInvalid={competitionData.winPoints < 0 || competitionData.winPoints > 100}
                     />
                     <Input
                         name="drawPoints"
@@ -136,6 +142,7 @@ export default function CreateCompetition() {
                         placeholder="Enter points"
                         type="number"
                         variant="bordered"
+                        isInvalid={competitionData.drawPoints < 0 || competitionData.drawPoints > 100}
                     />
                     <Input
                         name="lossPoints"
@@ -145,6 +152,7 @@ export default function CreateCompetition() {
                         placeholder="Enter points"
                         type="number"
                         variant="bordered"
+                        isInvalid={competitionData.lossPoints < 0 || competitionData.lossPoints > 100}
                     />
                 </div>
                     <Textarea

@@ -16,11 +16,7 @@ class Competition {
     }
     
 
-    static async dbGetAllCompetitions() {
-        const query = "SELECT * FROM competition";
-        const result = await db.query(query);
-        return result;
-    }
+
 
     static async dbInsertCompetition(competition) {
         try {
@@ -35,19 +31,7 @@ class Competition {
         }
     }
 
-    static async dbGetCompetitionById(id) {
-        const query = "SELECT * FROM competition WHERE idCompetition = $1";
-        const values = [id];
-        const result = await db.query(query, values);
-        return result;
-    }
-
-    static async dbGetCompetitionByName(name) {
-        const query = "SELECT * FROM competition WHERE name = $1";
-        const values = [name];
-        const result = await db.query(query, values);
-        return result;
-    }
+    
 
     static async dbGetCompetitionsByUserId(id) {
         const query = "SELECT * FROM competition WHERE idUser = $1";
