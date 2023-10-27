@@ -34,14 +34,18 @@ class Match {
 
     // get all matches by competition id
     // with name of competition is in match name of competitors is in match and their score is in match, id od match and date
+    // also id of user who created match
     static async dbGetAllMatchesByCompetitionId(id) {
         const query = `SELECT match.idmatch, match.date, match.scorefirst, match.scoresecond, match.round,
-                        competitor.name AS competitorfirst, competitor2.name AS competitorsecond,
-                        competition.name AS competitionname
+                        competitor.name AS competitorfirst,
+                        competitor2.name AS competitorsecond,
+                        competition.name AS competitionname,
+                        users.iduser
                         FROM match
                         INNER JOIN competitor ON match.idcompetitorfirst = competitor.idcompetitor
                         INNER JOIN competitor AS competitor2 ON match.idcompetitorsecond = competitor2.idcompetitor
                         INNER JOIN competition ON match.idcompetition = competition.idcompetition
+                        INNER JOIN users ON competition.iduser = users.iduser
                         WHERE match.idcompetition = $1 ORDER BY match.date ASC`;
         const values = [id];
         const result = await db.query(query, values);

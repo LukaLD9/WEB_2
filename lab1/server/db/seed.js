@@ -64,17 +64,31 @@ const sql_insert_userinfo = `INSERT INTO Users(IdUser) VALUES ('google-oauth2|10
 
 const sql_insert_competition =
     `INSERT INTO Competition(Name, System, IdUser)
-    VALUES ('Competition1', '3/1/0', 'google-oauth2|100000000000000000000');`
+    VALUES ('FA Premier League', '3/1/0', 'google-oauth2|100000000000000000000');`
 
 const sql_insert_competitor =
     `INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Competitor1', 0, 0, 0, 0, 1);
+    VALUES ('Manchester United F.C.', 4, 1, 1, 1, 1);
     INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Competitor2', 0, 0, 0, 0, 1);`
+    VALUES ('Arsenal F.C.', 2, 0, 1, 2, 1);
+    INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
+    VALUES ('Liverpool F.C.', 4, 1, 1, 1, 1);
+    INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
+    VALUES ('Chelsea F.C.', 5, 1, 0, 2, 1);`
 
 const sql_insert_match =
     `INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
-    VALUES (0, 0, 1, '2021-01-01', false, 1, 1, 2)`
+    VALUES (1, 0, 1, '2023-01-01', TRUE, 1, 1, 2);
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
+    VALUES (0, 3, 1, '2023-01-01', TRUE, 1, 3, 4);
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
+    VALUES (1, 2, 2, '2023-02-02', TRUE, 1, 1, 3);
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
+    VALUES (2, 2, 2, '2023-03-03', TRUE, 1, 2, 4);
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
+    VALUES (4, 4, 3, '2023-04-04', TRUE, 1, 1, 4);
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
+    VALUES (0, 0, 3, '2023-04-04', TRUE, 1, 2, 3);`
 
 let table_names = ['Users', 'Competition', 'Competitor', 'Match']
 

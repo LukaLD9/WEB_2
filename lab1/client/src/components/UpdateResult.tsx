@@ -12,6 +12,8 @@ import {
 } from "@nextui-org/react";
 import axios from 'axios';
 import  IMatchData from "../interface/IMatchData";
+import { useAuth0 } from "@auth0/auth0-react";
+import { EditIcon } from "./EditIcon";
 
 const UpdateResult = ({ matchData }: { matchData: IMatchData }) => {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -21,10 +23,19 @@ const UpdateResult = ({ matchData }: { matchData: IMatchData }) => {
   const [scoresecond, setScoresecond] = useState(matchData.scoresecond);
 
   
+  const { isAuthenticated, user } = useAuth0();
 
   const updateResult = () => {
+    // check if user.sub is equal to iduser
+    if (isAuthenticated && user?.sub !== matchData.iduser) {
+        window.alert("You are not allowed to update this result!");
+        return;
+    }
+
+
     // Check if the data is valid
     if (scorefirst < 0 || scoresecond < 0) {
+        window.alert("Score must be positive number!");
         return;
     }
     // Prepare the data for the API request

@@ -49,6 +49,7 @@ const columns = [
 
 
 function TableOfMatches() {
+
     const navigate = useNavigate();
 
     // get competitionid from url
@@ -62,6 +63,7 @@ function TableOfMatches() {
     
     const [page, setPage] = React.useState(1);
     const [pages, setPages] = React.useState(1);
+    
 
     React.useEffect(() => {
         axios.get(`http://localhost:5000/api/match/byCompetition/${competitionid}`)
@@ -69,12 +71,14 @@ function TableOfMatches() {
             setMatches(response.data);
             // set number of pages to max round number
             setPages(Math.max(...response.data.map((match : IMatchData) => match.round)));
+            
         })
         .catch((error) => {
             console.log(error);
         })
     }, []);
 
+    
     
 
     // filter matches by round and don't show matches where first and second competitor are the same (bye) 
@@ -117,8 +121,8 @@ function TableOfMatches() {
                                     columnKey === "actions" ?
                                     <TableCell>
                                         <UpdateResult matchData={match}/>
-                                    </TableCell>
-                                    : columnKey === 'date' ?
+                                    </TableCell> :
+                                    columnKey === 'date' ?
                                     <TableCell>{new Date(getKeyValue(match, columnKey)).toLocaleDateString()}</TableCell>
                                     :
                                     <TableCell>{getKeyValue(match, columnKey)}</TableCell>

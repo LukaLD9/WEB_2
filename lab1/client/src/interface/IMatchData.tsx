@@ -7,4 +7,5 @@ export default interface IMatchData {
     round: number;
     date: Date;
     competitionname: string;
+    iduser: string;
 }
