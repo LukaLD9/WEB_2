@@ -11,10 +11,40 @@ import {
     Input
 } from "@nextui-org/react";
 import axios from 'axios';
+import { useAuth0 } from "@auth0/auth0-react";
+
+
+// Function to validate the data before sending it to the API
+function validateData(data: any) {
+  if (data.name.length === 0) {
+    return false;
+  }
+  if (data.winPoints < 0 || data.winPoints > 100) {
+    return false;
+  }
+  if (data.drawPoints < 0 || data.drawPoints > 100) {
+    return false;
+  }
+  if (data.lossPoints < 0 || data.lossPoints > 100) {
+    return false;
+  }
+  if (data.competitors.split(/[\n;]/)
+    .filter((competitor: string) => competitor.length > 0)
+    .length < 4 ||
+  data.competitors.split(/[\n;]/)
+    .filter((competitor: string) => competitor.length > 0)
+    .length > 8) {
+    return false;
+  }
+  return true;
+}
 
 
 export default function CreateCompetition() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
+
+  const { user } = useAuth0();
+  const idUser = user?.sub;
 
   const [competitionData, setCompetitionData] = useState({
     name: '',
@@ -33,27 +63,36 @@ export default function CreateCompetition() {
   };
 
   const createCompetition = () => {
+    // Check if the data is valid
+    if (!validateData(competitionData)) {
+      return;
+    }
+
+
     // Prepare the data for the API request
     const dataToSend = {
       name: competitionData.name,
-      winPoints: competitionData.winPoints,
-      drawPoints: competitionData.drawPoints,
-      lossPoints: competitionData.lossPoints,
-      competitors: competitionData.competitors.split('\n').map((line) => line.trim()),
+      system: competitionData.winPoints + "/" + competitionData.drawPoints + "/" + competitionData.lossPoints,
+      idUser: idUser,
+      // competitors are divided by new line, or by ;, don't care about spaces, don't consider empty lines
+      competitors: competitionData.competitors.split(/[\n;]/)
+          .map((competitor: string) => competitor.trim())
+          .filter((competitor: string) => competitor.length > 0),
     };
 
-    console.log(dataToSend);
     
     // Send the request to the API, try to catch errors
-    axios.post('http://localhost:5000/competition', dataToSend)
+    axios.post('http://localhost:5000/api/competition/create', dataToSend)
         .then((response) => {
             console.log(response);
+            window.location.reload();
         }
     ).catch((error) => {
         console.log(error);
     });
+    
   };
-
+  
 
   return (
     <>
@@ -76,6 +115,8 @@ export default function CreateCompetition() {
                     label="Name"
                     placeholder="Enter name of competition"
                     variant="bordered"
+                    isInvalid={competitionData.name.length === 0}
+                    errorMessage="Name is required"
                 />
                 <div className="flex gap-4">
                     <Input
@@ -111,8 +152,17 @@ export default function CreateCompetition() {
                         value={competitionData.competitors}
                         onChange={handleInputChange}
                         label="Competitors"
-                        placeholder="Enter competitors, each in a new line"
+                        placeholder="Enter 4 to 8 competitors, each in a new line or divided by ;"
                         variant="bordered"
+                        isInvalid={
+                            competitionData.competitors.split(/[\n;]/)
+                                .filter((competitor: string) => competitor.length > 0)
+                                .length < 4 ||
+                            competitionData.competitors.split(/[\n;]/)
+                                .filter((competitor: string) => competitor.length > 0)
+                                .length > 8
+                        }
+                        errorMessage="Competitors are required, 4 to 8"
                     />
               </ModalBody>
               <ModalFooter>

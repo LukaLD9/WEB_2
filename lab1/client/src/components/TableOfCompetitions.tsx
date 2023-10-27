@@ -90,7 +90,7 @@ function TableOfCompetitions() {
                             )}
                         </TableHeader>
                         <TableBody 
-                            emptyContent={"You have no competitions yet!"}
+                            emptyContent={"You have no competitions yet! "}
                             items={competitions}>
                             {(item) => (
                             <TableRow key={item.idcompetition}>
