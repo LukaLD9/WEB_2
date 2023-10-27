@@ -1,8 +1,10 @@
 export default interface IMatchData {
-    id: string;
-    firstCompetitor: string;
-    secondCompetitor: string;
-    firstScore: string;
-    secondScore: string;
-    round: string;
+    idmatch: number;
+    competitorfirst: string;
+    competitorsecond: string;
+    scorefirst: number;
+    scoresecond: number;
+    round: number;
+    date: Date;
+    competitionname: string;
 }

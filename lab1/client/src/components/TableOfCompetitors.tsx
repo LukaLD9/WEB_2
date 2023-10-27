@@ -52,7 +52,7 @@ function TableOfCompetitors() {
     // iz api dohvati sva natjecanja i prikazi ih u tablici
 
     const [competitors, setCompetitors] = React.useState<ICompetitorData[]>([]);
-
+    const competitionName = competitors[0]?.competitionname || "";
     
     React.useEffect(() => {
         axios.get(`http://localhost:5000/api/competitor/byCompetition/${competitionid}`)
@@ -68,7 +68,7 @@ function TableOfCompetitors() {
         <div className="flex flex-col h-screen">
             <div className="flex justify-center items-center w-3-4">
                 <div className="w-3/4">
-                    <h1 className="text-xl font-bold text-center mb-4 mt-4">{competitors[0].competitionname}</h1>
+                    <h1 className="text-xl font-bold text-center mb-4 mt-4">{competitionName}</h1>
                     <Table aria-label="Example table with custom cells">
                         <TableHeader columns={columns}>
                             {(column) => (

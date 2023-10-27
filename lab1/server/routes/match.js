@@ -12,7 +12,7 @@ router.get('/', async function(req, res, next) {
 });
 
 
-router.get('/:id', async function(req, res, next) {
+router.get('/byCompetition/:id', async function(req, res, next) {
     try {
         let result = await Match.dbGetAllMatchesByCompetitionId(req.params.id);
         console.log(result);

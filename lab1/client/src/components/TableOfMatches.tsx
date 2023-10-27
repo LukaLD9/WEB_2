@@ -9,62 +9,35 @@ import {  Table,
 } from "@nextui-org/react";
 import React from "react";
 import { Button } from "@nextui-org/react";
+import { useNavigate } from "react-router-dom";
 import UpdateResult from "./UpdateResult";
 import IMatchData from "../interface/IMatchData";
-
-
-const rows : IMatchData[] = [
-    {
-        id: "1",
-        firstCompetitor: "Tony Reichert",
-        secondCompetitor: "Zoey Lang",
-        firstScore: "3",
-        secondScore: "2",
-        round: "1",
-    },
-    {
-        id: "2",
-        firstCompetitor: "Jane Fisher",
-        secondCompetitor: "William Howard",
-        firstScore: "2",
-        secondScore: "3",
-        round: "1",
-
-    },
-    {
-        id: "3",
-        firstCompetitor: "Tony Reichert",
-        secondCompetitor: "Jane Fisher",
-        firstScore: "3",
-        secondScore: "1",
-        round: "2",
-    },
-    {
-        id: "4",
-        firstCompetitor: "William Howard",
-        secondCompetitor: "Zoey Lang",
-        firstScore: "3",
-        secondScore: "2",
-        round: "2",
-    },
-  ];
+import axios from "axios";
 
 
 const columns = [
     {
-        key: "firstCompetitor",
+        key: "round",
+        label: "ROUND",
+    },
+    {
+        key: "date",
+        label: "DATE",
+    },
+    {
+        key: "competitorfirst",
         label: "FIRST COMPETITOR",
     },
     {
-        key: "secondCompetitor",
+        key: "competitorsecond",
         label: "SECOND COMPETITOR",
     },
     {
-        key: "firstScore",
+        key: "scorefirst",
         label: "FIRST SCORE",
     },
     {
-        key: "secondScore",
+        key: "scoresecond",
         label: "SECOND SCORE",
     },
     {
@@ -75,14 +48,36 @@ const columns = [
 
 
 function TableOfMatches() {
+    const navigate = useNavigate();
+
+    // get competitionid from url
+    const url = window.location.href;
+    const competitionid = url.substring(url.lastIndexOf('/') + 1);
+
     // iz api dohvati sva natjecanja i prikazi ih u tablici
+
+    const [matches, setMatches] = React.useState<IMatchData[]>([]);
+    const competitionName = matches[0]?.competitionname || "";
+
+    
+    React.useEffect(() => {
+        axios.get(`http://localhost:5000/api/match/byCompetition/${competitionid}`)
+        .then((response) => {
+            setMatches(response.data);
+        })
+        .catch((error) => {
+            console.log(error);
+        })
+    }, []);
+
+
     const [page, setPage] = React.useState(1);
 
-    // broj stranica je najveći round iz rows
-    const pages = Math.max(...rows.map((row) => parseInt(row.round)));
+    // number of pages is equal to the highest round number
+    const pages = Math.max(...matches.map((match) => match.round));
 
-    // na svakoj stranici prikazati sve matcheve koji imaju taj round
-    const items = rows.filter((row) => parseInt(row.round) === page);
+    // filter matches by round
+    const matchesFiltered = matches.filter((match) => match.round === page);
     
     
     //  <TableBody emptyContent={"No rows to display."}>{[]}</TableBody>
@@ -90,7 +85,7 @@ function TableOfMatches() {
         <div className="flex flex-col h-screen">
             <div className="flex justify-center items-center w-3-4">
                 <div className="w-3/4">
-                    <h1 className="text-xl font-bold text-center mb-4 mt-4">My Matches</h1>
+                    <h1 className="text-xl font-bold text-center mb-4 mt-4">{competitionName}</h1>
                     <Table aria-label="Example table with custom cells"
                     bottomContent={
                         <div className="flex w-full justify-center">
@@ -112,21 +107,28 @@ function TableOfMatches() {
                             </TableColumn>
                             )}
                         </TableHeader>
-                        <TableBody items={items}>
-                            {(item) => (
-                            <TableRow key={item.id}>
+                        <TableBody items={matchesFiltered}>
+                            {(match) => (
+                            <TableRow key={match.idmatch}>
                                 {(columnKey) => 
                                     columnKey === "actions" ?
                                     <TableCell>
-                                        <UpdateResult rowData={item}/>
+                                        <UpdateResult rowData={match}/>
                                     </TableCell>
+                                    : columnKey === 'date' ?
+                                    <TableCell>{new Date(getKeyValue(match, columnKey)).toLocaleDateString()}</TableCell>
                                     :
-                                    <TableCell>{getKeyValue(item, columnKey)}</TableCell>
+                                    <TableCell>{getKeyValue(match, columnKey)}</TableCell>
                                 }
                             </TableRow>
                             )}
                         </TableBody>
                     </Table>
+                    <div className="flex justify-center mt-4">
+                        <Button className="mr-4 ml-4" onClick={() => navigate(`/table/${competitionid}`)}>
+                                                Table
+                        </Button>
+                    </div>
                 </div>
             </div>
         </div>

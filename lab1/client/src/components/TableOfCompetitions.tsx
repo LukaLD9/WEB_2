@@ -14,30 +14,6 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import ICompetitionData from "../interface/ICompetitionData";
 
-// const rows = [
-//     {
-//       key: "1",
-//       name: "Tony Reichert",
-//       system: "CEO",
-//     },
-//     {
-//       key: "2",
-//       name: "Zoey Lang",
-//       system: "Technical Lead",
-//     },
-//     {
-//       key: "3",
-//       name: "Jane Fisher",
-//       system: "Senior Developer",
-//     },
-//     {
-//       key: "4",
-//       name: "William Howard",
-//       system: "Community Manager",
-//     },
-//   ];
-
-
 const columns = [
     {
         key: "name",
