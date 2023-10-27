@@ -13,35 +13,38 @@ import {
 import axios from 'axios';
 import  IMatchData from "../interface/IMatchData";
 
-const UpdateResult = ({ rowData }: { rowData: IMatchData }) => {
+const UpdateResult = ({ matchData }: { matchData: IMatchData }) => {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-  //const [matchData, setmatchData] = useState(rowData);
-  const [scorefirst, setScorefirst] = useState(rowData.firstScore);
-  const [scoresecond, setScoresecond] = useState(rowData.secondScore);
+  //const [matchData, setmatchData] = useState(matchData);
+  const [scorefirst, setScorefirst] = useState(matchData.scorefirst);
+  const [scoresecond, setScoresecond] = useState(matchData.scoresecond);
 
   
 
   const updateResult = () => {
+    // Check if the data is valid
+    if (scorefirst < 0 || scoresecond < 0) {
+        return;
+    }
     // Prepare the data for the API request
     const dataToSend = {
-        id: rowData.id,
-        scorefirst,
-        scoresecond
+        idMatch: matchData.idmatch,
+        scoreFirst: scorefirst,
+        scoreSecond: scoresecond
     };
 
-    console.log(dataToSend);
     
-    /*
     // Send the request to the API, try to catch errors
-    axios.post('http://localhost:5000/competition', dataToSend)
+    axios.put('http://localhost:5000/api/match/result', dataToSend)
         .then((response) => {
             console.log(response);
+            window.location.reload();
         }
     ).catch((error) => {
         console.log(error);
     });
-    /*/
+    
   };
 
 
@@ -56,26 +59,28 @@ const UpdateResult = ({ rowData }: { rowData: IMatchData }) => {
         <ModalContent>
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1">New competition</ModalHeader>
+              <ModalHeader className="flex flex-col gap-1">{matchData.competitionname}</ModalHeader>
               <ModalBody>
                  <div className="flex gap-4">
                     <Input
                         name="scorefirst"
-                        value={scorefirst}
-                        onChange={(event) => setScorefirst(event.target.value)}
+                        value={scorefirst.toString()}
+                        onChange={(event) => setScorefirst(parseInt(event.target.value))}
                         type="number"
-                        label={rowData.firstCompetitor}
-                        placeholder="Enter name of competition"
+                        label={matchData.competitorfirst}
+                        placeholder="Enter score"
                         variant="bordered"
+                        isInvalid={scorefirst < 0}
                     />
                     <Input
                         name="scoresecond"
-                        value={scoresecond}
-                        onChange={(event) => setScoresecond(event.target.value)}
+                        value={scoresecond.toString()}
+                        onChange={(event) => setScoresecond(parseInt(event.target.value))}
                         type="number"
-                        label={rowData.secondCompetitor}
-                        placeholder="Enter name of competition"
+                        label={matchData.competitorsecond}
+                        placeholder="Enter score"
                         variant="bordered"
+                        isInvalid={scoresecond < 0}
                     />
                 </div>
               </ModalBody>

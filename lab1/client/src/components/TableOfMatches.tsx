@@ -5,7 +5,8 @@ import {  Table,
     TableRow,
     TableCell,
     Pagination,
-    getKeyValue
+    getKeyValue,
+    Spinner
 } from "@nextui-org/react";
 import React from "react";
 import { Button } from "@nextui-org/react";
@@ -58,29 +59,29 @@ function TableOfMatches() {
 
     const [matches, setMatches] = React.useState<IMatchData[]>([]);
     const competitionName = matches[0]?.competitionname || "";
-
     
+    const [page, setPage] = React.useState(1);
+    const [pages, setPages] = React.useState(1);
+
     React.useEffect(() => {
         axios.get(`http://localhost:5000/api/match/byCompetition/${competitionid}`)
         .then((response) => {
             setMatches(response.data);
+            // set number of pages to max round number
+            setPages(Math.max(...response.data.map((match : IMatchData) => match.round)));
         })
         .catch((error) => {
             console.log(error);
         })
     }, []);
 
-
-    const [page, setPage] = React.useState(1);
-
-    // number of pages is equal to the highest round number
-    const pages = Math.max(...matches.map((match) => match.round));
-
-    // filter matches by round
-    const matchesFiltered = matches.filter((match) => match.round === page);
     
+
+    // filter matches by round and don't show matches where first and second competitor are the same (bye) 
+    const matchesFiltered = matches.filter((match) => match.round === page)
+                                    .filter((match) => match.competitorfirst !== match.competitorsecond);
     
-    //  <TableBody emptyContent={"No rows to display."}>{[]}</TableBody>
+   
     return (
         <div className="flex flex-col h-screen">
             <div className="flex justify-center items-center w-3-4">
@@ -107,13 +108,15 @@ function TableOfMatches() {
                             </TableColumn>
                             )}
                         </TableHeader>
-                        <TableBody items={matchesFiltered}>
+                        <TableBody
+                            loadingContent={<Spinner />}
+                            items={matchesFiltered}>
                             {(match) => (
                             <TableRow key={match.idmatch}>
                                 {(columnKey) => 
                                     columnKey === "actions" ?
                                     <TableCell>
-                                        <UpdateResult rowData={match}/>
+                                        <UpdateResult matchData={match}/>
                                     </TableCell>
                                     : columnKey === 'date' ?
                                     <TableCell>{new Date(getKeyValue(match, columnKey)).toLocaleDateString()}</TableCell>
