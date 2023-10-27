@@ -9,7 +9,9 @@ export default function NavigationBar() {
   return (
     <Navbar position="static" isBordered>
       <NavbarBrand>
-        <p className="font-bold text-inherit">Competition Monitoring App</p>
+        <Link href="/">
+           <p className="font-bold text-inherit">Competition Monitoring App</p>
+        </Link>
       </NavbarBrand>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         
