@@ -2,7 +2,6 @@ process.on("uncaughtException", function (err) {
   console.error(err);
   console.log("Node NOT Exiting...");
 });
-
 const express = require('express');
 const { auth } = require('express-oauth2-jwt-bearer');
 const cors = require('cors');
@@ -47,8 +46,16 @@ app.use("/api/match", MatchRouter);
 
 module.exports = app;
 
-const hostname = 'localhost';
-const port = 5000; 
-app.listen(port, hostname, () => {
-  console.log(`Web API running at http://${hostname}:${port}/`);
-});
+const externalUrl = process.env.RENDER_EXTERNAL_URL;
+const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 5000;
+
+if(externalUrl){
+  const hostname = '0.0.0.0';
+  app.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/ and from outside on ${externalUrl}`);
+  });
+} else {
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
+  });
+}
