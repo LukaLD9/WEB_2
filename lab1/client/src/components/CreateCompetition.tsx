@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
     Modal,
     ModalContent,
@@ -89,7 +89,7 @@ export default function CreateCompetition() {
     const sendCompetition = async () => {
       try {
         const token = await getAccessTokenSilently();
-        const response = await axios.post(`http://localhost:5000/api/competition/create`, dataToSend, {
+        await axios.post(`http://localhost:5000/api/competition/create`, dataToSend, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -7,7 +7,6 @@ import {
     ModalFooter,
     Button,
     useDisclosure,
-    Textarea,
     Input
 } from "@nextui-org/react";
 import axios from 'axios';
@@ -52,7 +51,7 @@ const UpdateResult = ({ matchData }: { matchData: IMatchData }) => {
             headers: {
                 Authorization: `Bearer ${token}`,
             }
-        }).then(response => {
+        }).then(() => {
             window.location.reload();
         }).catch(error => {
             console.log(error);

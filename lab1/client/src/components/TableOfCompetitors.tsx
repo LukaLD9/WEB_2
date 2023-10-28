@@ -8,7 +8,6 @@ import {  Table,
     Button,
 } from "@nextui-org/react";
 import React from "react";
-import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ICompetitorData from "../interface/ICompetitorData";
@@ -38,10 +37,6 @@ const columns = [
 ]
 
 function TableOfCompetitors() {
-
-    // get userid from auth0
-    const { user } = useAuth0();
-    const userid = user?.sub;
 
     // get competitionid from url
     const url = window.location.href;
