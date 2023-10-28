@@ -48,7 +48,7 @@ function validateData(data: any) {
 export default function CreateCompetition() {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
-  const { user } = useAuth0();
+  const { user, getAccessTokenSilently } = useAuth0();
   const idUser = user?.sub;
 
   const [competitionData, setCompetitionData] = useState({
@@ -73,7 +73,6 @@ export default function CreateCompetition() {
       return;
     }
 
-
     // Prepare the data for the API request
     const dataToSend = {
       name: competitionData.name,
@@ -86,15 +85,22 @@ export default function CreateCompetition() {
     };
 
     
-    // Send the request to the API, try to catch errors
-    axios.post('http://localhost:5000/api/competition/create', dataToSend)
-        .then((response) => {
-            console.log(response);
-            window.location.reload();
-        }
-    ).catch((error) => {
+    // get token from auth0 and send data to api
+    const sendCompetition = async () => {
+      try {
+        const token = await getAccessTokenSilently();
+        const response = await axios.post(`http://localhost:5000/api/competition/create`, dataToSend, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        window.location.reload();
+      } catch (error) {
         console.log(error);
-    });
+      }
+    };
+
+    sendCompetition();
     
   };
   

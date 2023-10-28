@@ -30,19 +30,18 @@ app.get('/', function (req, res) {
 });
 
 var CompetitionRouter = require('./routes/competition');
-var CompetitorRouter = require('./routes/competitor');
 var MatchRouter = require('./routes/match');
+var PublicRouter = require('./routes/public');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/api/competition", CompetitionRouter);
-app.use("/api/competitor", CompetitorRouter);
-app.use("/api/match", MatchRouter);
+app.use("/api/public", PublicRouter);
 
 app.use(jwtCheck);
-
+app.use("/api/competition", CompetitionRouter);
+app.use("/api/match", MatchRouter);
 
 
 

@@ -55,7 +55,7 @@ function TableOfCompetitors() {
     const competitionName = competitors[0]?.competitionname || "";
     
     React.useEffect(() => {
-        axios.get(`http://localhost:5000/api/competitor/byCompetition/${competitionid}`)
+        axios.get(`http://localhost:5000/api/public/allcompetitors/${competitionid}`)
         .then((response) => {
             setCompetitors(response.data);
         })

@@ -2,6 +2,7 @@ var express = require('express');
 var Competition = require('../models/CompetitionModel');
 var router = express.Router();
 
+// private
 router.get('/user/:id', async function(req, res, next) {
     try {
         let result = await Competition.dbGetCompetitionsByUserId(req.params.id);
@@ -12,7 +13,7 @@ router.get('/user/:id', async function(req, res, next) {
     }
 });
 
-
+// private
 router.post('/create', async function(req, res, next) {
     try {
         let competition = new Competition(

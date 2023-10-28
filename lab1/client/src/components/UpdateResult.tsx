@@ -13,7 +13,6 @@ import {
 import axios from 'axios';
 import  IMatchData from "../interface/IMatchData";
 import { useAuth0 } from "@auth0/auth0-react";
-import { EditIcon } from "./EditIcon";
 
 const UpdateResult = ({ matchData }: { matchData: IMatchData }) => {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -23,11 +22,11 @@ const UpdateResult = ({ matchData }: { matchData: IMatchData }) => {
   const [scoresecond, setScoresecond] = useState(matchData.scoresecond);
 
   
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
 
   const updateResult = () => {
     // check if user.sub is equal to iduser
-    if (isAuthenticated && user?.sub !== matchData.iduser) {
+    if (isAuthenticated && user?.sub !== matchData.iduser || !isAuthenticated) {
         window.alert("You are not allowed to update this result!");
         return;
     }
@@ -42,18 +41,23 @@ const UpdateResult = ({ matchData }: { matchData: IMatchData }) => {
     const dataToSend = {
         idMatch: matchData.idmatch,
         scoreFirst: scorefirst,
-        scoreSecond: scoresecond
+        scoreSecond: scoresecond,
+        idUser: user?.sub
     };
 
     
-    // Send the request to the API, try to catch errors
-    axios.put('http://localhost:5000/api/match/result', dataToSend)
-        .then((response) => {
-            console.log(response);
+    // Send the request to the API, with bearer token in the header async
+    getAccessTokenSilently().then(token => {
+        axios.put('http://localhost:5000/api/match/result', dataToSend, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            }
+        }).then(response => {
             window.location.reload();
-        }
-    ).catch((error) => {
-        console.log(error);
+        }).catch(error => {
+            console.log(error);
+            window.alert("Update failed!");
+        });
     });
     
   };

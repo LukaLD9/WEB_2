@@ -57,23 +57,39 @@ class Match {
         return false;
     }
 
+    // chech if user is owner of match
+    static async dbCheckUserIsOwnerOfCompetition(idUser, idMatch) {
+        const query = `SELECT users.iduser FROM users
+                        INNER JOIN competition ON users.iduser = competition.iduser
+                        INNER JOIN match ON competition.idcompetition = match.idcompetition
+                        WHERE match.idmatch = $1`;
+        const values = [idMatch];
+        const result = await db.query(query, values);
+        if(result[0].iduser == idUser) {
+            return true;
+        }
+        return false;
+    }
 
-    static async dbUpdateMatchResult(idMatch, scoreFirst, scoreSecond) {
+
+
+    static async dbUpdateMatchResult(idMatch, scoreFirst, scoreSecond, idUser) {
         //const isDateInPast = await Match.dbCheckMatchDateInPast(idMatch);
        // if(isDateInPast) {
+
+        if(await Match.dbCheckUserIsOwnerOfCompetition(idUser, idMatch)) {
             const query = "UPDATE match SET scoreFirst = $1, scoreSecond = $2, played = true WHERE idMatch = $3 RETURNING *";
             const values = [scoreFirst, scoreSecond, idMatch];
             const result = await db.query(query, values);
-            const idCompetition = result[0].idcompetition;
             const idCompetitorFirst = result[0].idcompetitorfirst;
             const idCompetitorSecond = result[0].idcompetitorsecond;
 
             const result1 = await Match.dbUpdateCompetitorPoints(idCompetitorFirst);
             const result2 = await Match.dbUpdateCompetitorPoints(idCompetitorSecond);
             return [result1[0], result2[0]];
-        // } else {
-        //     return false;
-        // }
+        } else {
+            return false;
+        }
     }
 
     // loop through all matches and update points, won, lost

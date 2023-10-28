@@ -31,22 +31,31 @@ const columns = [
 
 function TableOfCompetitions() {
     // get userid from auth0
-    const { user } = useAuth0();
-    const userid = user?.sub;
+    const { user, getAccessTokenSilently } = useAuth0();
+    //const userid = user?.sub;
 
     // iz api dohvati sva natjecanja i prikazi ih u tablici
 
     const [competitions, setCompetitions] = React.useState<ICompetitionData[]>([]);
 
     
+    // get competitions from api with axios and token
     React.useEffect(() => {
-        axios.get(`http://localhost:5000/api/competition/user/${userid}`)
-        .then((response) => {
-            setCompetitions(response.data);
-        })
-        .catch((error) => {
-            console.log(error);
-        })
+        const getCompetitions = async () => {
+            try {
+                const token = await getAccessTokenSilently();
+                const userid = user?.sub;
+                const response = await axios.get(`http://localhost:5000/api/competition/user/${userid}`, {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                });
+                setCompetitions(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+        getCompetitions();
     }, []);
     
 
