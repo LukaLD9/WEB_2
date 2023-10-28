@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 
 
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <NextUIProvider>
@@ -20,7 +21,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           authorizationParams={{
             redirect_uri: window.location.origin,
             audience: 'competition monitoring api',
-          // scope: 'read:current_user update:current_user_metadata'
           }}
         >
           <App />
