@@ -68,6 +68,9 @@ function TableOfMatches() {
     React.useEffect(() => {
         axios.get(`http://localhost:5000/api/public/allmatches/${competitionid}`)
         .then((response) => {
+            if(response.data.length === 0) {
+                navigate(`/NotFound`);
+            }
             setMatches(response.data);
             // set number of pages to max round number
             setPages(Math.max(...response.data.map((match : IMatchData) => match.round)));

@@ -57,6 +57,9 @@ function TableOfCompetitors() {
     React.useEffect(() => {
         axios.get(`http://localhost:5000/api/public/allcompetitors/${competitionid}`)
         .then((response) => {
+            if(response.data.length === 0) {
+                navigate(`/NotFound`);
+            }
             setCompetitors(response.data);
         })
         .catch((error) => {
