@@ -27,6 +27,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
+app.get("/", (req, res) => {
+  res.send("Hello Server!");
+});
+
 app.use("/api/public", PublicRouter);
 
 app.use(jwtCheck);
