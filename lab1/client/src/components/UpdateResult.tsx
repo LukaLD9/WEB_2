@@ -12,6 +12,7 @@ import {
 import axios from 'axios';
 import  IMatchData from "../interface/IMatchData";
 import { useAuth0 } from "@auth0/auth0-react";
+import config from "../config";
 
 const UpdateResult = ({ matchData }: { matchData: IMatchData }) => {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -47,7 +48,7 @@ const UpdateResult = ({ matchData }: { matchData: IMatchData }) => {
     
     // Send the request to the API, with bearer token in the header async
     getAccessTokenSilently().then(token => {
-        axios.put('http://localhost:5000/api/match/result', dataToSend, {
+        axios.put(`${config.API_BASE_URL}/api/match/result`, dataToSend, {
             headers: {
                 Authorization: `Bearer ${token}`,
             }

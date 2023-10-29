@@ -12,6 +12,7 @@ import {
 } from "@nextui-org/react";
 import axios from 'axios';
 import { useAuth0 } from "@auth0/auth0-react";
+import config from "../config";
 
 
 // Function to validate the data before sending it to the API
@@ -89,7 +90,7 @@ export default function CreateCompetition() {
     const sendCompetition = async () => {
       try {
         const token = await getAccessTokenSilently();
-        await axios.post(`http://localhost:5000/api/competition/create`, dataToSend, {
+        await axios.post(`${config.API_BASE_URL}/api/competition/create`, dataToSend, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

@@ -13,6 +13,7 @@ import CreateCompetition from "./CreateCompetition";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 import ICompetitionData from "../interface/ICompetitionData";
+import config from "../config";
 
 const columns = [
     {
@@ -45,7 +46,7 @@ function TableOfCompetitions() {
             try {
                 const token = await getAccessTokenSilently();
                 const userid = user?.sub;
-                const response = await axios.get(`http://localhost:5000/api/competition/user/${userid}`, {
+                const response = await axios.get(`${config.API_BASE_URL}/api/competition/user/${userid}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },

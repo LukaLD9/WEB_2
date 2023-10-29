@@ -11,7 +11,7 @@ import React from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import ICompetitorData from "../interface/ICompetitorData";
-
+import config from "../config";
 
 const columns = [
     {
@@ -50,7 +50,7 @@ function TableOfCompetitors() {
     const competitionName = competitors[0]?.competitionname || "";
     
     React.useEffect(() => {
-        axios.get(`http://localhost:5000/api/public/allcompetitors/${competitionid}`)
+        axios.get(`${config.API_BASE_URL}/api/public/allcompetitors/${competitionid}`)
         .then((response) => {
             if(response.data.length === 0) {
                 navigate(`/NotFound`);

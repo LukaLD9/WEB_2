@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import UpdateResult from "./UpdateResult";
 import IMatchData from "../interface/IMatchData";
 import axios from "axios";
+import config from "../config";
 
 
 const columns = [
@@ -66,7 +67,7 @@ function TableOfMatches() {
     
 
     React.useEffect(() => {
-        axios.get(`http://localhost:5000/api/public/allmatches/${competitionid}`)
+        axios.get(`${config.API_BASE_URL}/api/public/allmatches/${competitionid}`)
         .then((response) => {
             if(response.data.length === 0) {
                 navigate(`/NotFound`);
