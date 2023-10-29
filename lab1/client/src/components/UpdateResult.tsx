@@ -13,8 +13,11 @@ import axios from 'axios';
 import  IMatchData from "../interface/IMatchData";
 import { useAuth0 } from "@auth0/auth0-react";
 import config from "../config";
+import { useNavigate } from "react-router-dom";
 
 const UpdateResult = ({ matchData }: { matchData: IMatchData }) => {
+  const navigate = useNavigate();
+
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
 
   //const [matchData, setmatchData] = useState(matchData);
@@ -53,7 +56,7 @@ const UpdateResult = ({ matchData }: { matchData: IMatchData }) => {
                 Authorization: `Bearer ${token}`,
             }
         }).then(() => {
-            window.location.reload();
+          navigate(`/schedule/${matchData.idmatch}`); // redirect to match page
         }).catch(error => {
             console.log(error);
             window.alert("Update failed!");
