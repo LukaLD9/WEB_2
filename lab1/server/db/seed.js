@@ -76,27 +76,53 @@ const sql_insert_competition =
 
 const sql_insert_competitor =
     `INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Manchester United F.C.', 4, 1, 1, 1, 1);
+    VALUES ('Manchester United F.C.', 4, 1, 3, 1, 1);
     INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Arsenal F.C.', 2, 0, 1, 2, 1);
+    VALUES ('Arsenal F.C.', 7, 2, 2, 1, 1);
     INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Liverpool F.C.', 4, 1, 1, 1, 1);
+    VALUES ('Liverpool F.C.', 3, 0, 2, 3, 1);
     INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Chelsea F.C.', 5, 1, 0, 2, 1);`
+    VALUES ('Chelsea F.C.', 10, 3, 1, 1, 1);
+    INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
+    VALUES ('Manchester City F.C.', 10, 3, 1, 1, 1);
+    INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
+    VALUES ('Tottenham Hotspur F.C.', 7, 2, 2, 1, 1);`
 
 const sql_insert_match =
     `INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
-    VALUES (1, 0, 1, '2023-01-01', TRUE, 1, 1, 2);
+    VALUES (1, 2, 1, '2023-10-01', TRUE, 1, 1, 2);
     INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
-    VALUES (0, 3, 1, '2023-01-01', TRUE, 1, 3, 4);
+    VALUES (2, 2, 1, '2023-10-01', TRUE, 1, 3, 4);
     INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
-    VALUES (1, 2, 2, '2023-02-02', TRUE, 1, 1, 3);
+    VALUES (3, 1, 1, '2023-10-01', TRUE, 1, 5, 6);
+
     INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
-    VALUES (2, 2, 2, '2023-03-03', TRUE, 1, 2, 4);
+    VALUES (0, 0, 2, '2023-10-08', TRUE, 1, 1, 3);
     INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
-    VALUES (4, 4, 3, '2023-04-04', TRUE, 1, 1, 4);
+    VALUES (2, 3, 2, '2023-10-08', TRUE, 1, 2, 5);
     INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
-    VALUES (0, 0, 3, '2023-04-04', TRUE, 1, 2, 3);`
+    VALUES (4, 1, 2, '2023-10-08', TRUE, 1, 4, 6);
+
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
+    VALUES (5, 0, 3, '2023-10-15', TRUE, 1, 1, 4);
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
+    VALUES (2, 2, 3, '2023-10-15', TRUE, 1, 2, 6);
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
+    VALUES (3, 3, 3, '2023-10-15', TRUE, 1, 3, 5);
+
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
+    VALUES (0, 1, 4, '2023-10-22', TRUE, 1, 1, 5);
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond
+    VALUES (1, 2, 4, '2023-10-22', TRUE, 1, 2, 4);
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond
+    VALUES (1, 3, 4, '2023-10-22', TRUE, 1, 3, 6);
+    
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond
+    VALUES (1, 2, 5, '2023-10-29', TRUE, 1, 1, 6);
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond
+    VALUES (2, 1, 5, '2023-10-29', TRUE, 1, 2, 3);
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond
+    VALUES (3, 0, 5, '2023-10-29', TRUE, 1, 4, 5);`
 
 let table_names = ['Users', 'Competition', 'Competitor', 'Match']
 
