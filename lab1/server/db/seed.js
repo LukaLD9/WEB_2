@@ -76,17 +76,17 @@ const sql_insert_competition =
 
 const sql_insert_competitor =
     `INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Manchester United F.C.', 4, 1, 3, 1, 1);
+    VALUES ('Manchester United F.C.', 1, 0, 1, 1, 1);
     INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Arsenal F.C.', 7, 2, 2, 1, 1);
+    VALUES ('Arsenal F.C.', 3, 1, 1, 0, 1);
     INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Liverpool F.C.', 3, 0, 2, 3, 1);
+    VALUES ('Liverpool F.C.', 2, 0, 2, 0, 1);
     INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Chelsea F.C.', 10, 3, 1, 1, 1);
+    VALUES ('Chelsea F.C.', 4, 1, 0, 1, 1);
     INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Manchester City F.C.', 10, 3, 1, 1, 1);
+    VALUES ('Manchester City F.C.', 6, 2, 0, 0, 1);
     INSERT INTO Competitor(Name, Points, Won, Lost, Draw, IdCompetition)
-    VALUES ('Tottenham Hotspur F.C.', 7, 2, 2, 1, 1);`
+    VALUES ('Tottenham Hotspur F.C.', 0, 0, 2, 0, 1);`
 
 const sql_insert_match =
     `INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
