@@ -109,15 +109,15 @@ const sql_insert_match =
     VALUES (0, 0, 3, '2023-11-05', FALSE, 1, 3, 5);
     INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
     VALUES (0, 0, 4, '2023-11-12', FALSE, 1, 1, 5);
-    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
     VALUES (0, 0, 4, '2023-11-12', FALSE, 1, 2, 4);
-    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
     VALUES (0, 0, 4, '2023-11-12', FALSE, 1, 3, 6);
-    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
     VALUES (0, 0, 5, '2023-11-19', FALSE, 1, 1, 6);
-    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
     VALUES (0, 0, 5, '2023-11-19', FALSE, 1, 2, 3);
-    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond
+    INSERT INTO Match(ScoreFirst, ScoreSecond, Round, Date, Played, IdCompetition, IdCompetitorFirst, IdCompetitorSecond)
     VALUES (0, 0, 5, '2023-11-19', FALSE, 1, 4, 5);`
 
 let table_names = ['Users', 'Competition', 'Competitor', 'Match']
