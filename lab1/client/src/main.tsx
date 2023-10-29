@@ -16,8 +16,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <main className="light text-foreground bg-background">
       <BrowserRouter>
         <Auth0Provider
-          domain='dev-gl3jwk8s5jnx4xpd.us.auth0.com'
-          clientId='q3HTMEsS5hoTbDPsZL7DAS4wbFUDkh64'
+          domain={import.meta.env.VITE_AUTH0_DOMAIN}
+          clientId={import.meta.env.VITE_AUTH0_CLIENT_ID}
           authorizationParams={{
             redirect_uri: window.location.origin,
             audience: 'competition monitoring api',
