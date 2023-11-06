@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SQL injection</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>SQL umetanje (SQL Injection)</h1>
+    <hr>
+    <a>
+        Ostale opcije:
+    </a>
+    <ul>
+        <li>
+          <a href="../">Početna stranica</a><br>
+        </li>
+        <li>
+          <a href="../csrf">Lažiranje zahtjeva na drugom sjedištu (Cross Site Request Forgery, CSRF)</a><br>
+        </li>
+      </ul>
+    <hr>
+    <p>
+        <a>
+            Unesite omiljeni nogometni klub npr. <b>Manchester United F.C.</b> i saznajte koju ligu igra.
+        </a>
+        <br>
+        <br>
+        <a>
+            Unesite <b>Manchester United F.C.' OR '1'='1</b> i isprobajte SQL umetanje.
+        </a>
+        <br>
+        <br>
+
+      <p>
+        <label for="toggleButton">SQL umetanje:</label>
+        <input type="checkbox" id="toggleButton" onchange="toggleForms()" checked/>
+      </p>
+      
+      <div id="form1" style="display: block;">
+        <a> Omogućeno SQL umetanje </a>
+        <form id="form" action="/sql" method="post">
+          <input class="input-text" type="text" name="name" placeholder="Nogometni klub">
+          <input type="submit" value="Potvrdi">
+        </form>
+      </div>
+
+      <div id="form2" style="display: none;">
+        <a> Onemogućeno SQL umetanje </a>
+        <form id="formSecure" action="/sql/secure" method="post">
+          <input class="input-text" type="text" name="name" placeholder="Nogometni klub">
+          <input type="submit" value="Potvrdi">
+        </form>
+      </div>
+
+    </p>
+    <!-- ako je rezultat prazno polje ne prikaži paragraf -->
+    <% if (result) { %>
+      <p>
+        <a>
+          <% if (result.length > 0) { %>
+            <% for (var i = 0; i < result.length; i++) { %>
+              <p>
+                <a>
+                  <% if (result[i].competitor) { %>
+                    <b><%= result[i].competitor %></b> igra u <b><%= result[i].competition %></b>.
+                  <% } else { %>
+                    Nogometni klub nije pronađen.
+                  <% } %>
+                </a>
+              </p>
+            <% } %>
+          <% } else { %>
+            Nogometni klub nije pronađen.
+          <% } %>
+        </a>
+      </p>
+    <% } %>
+    
+    <script>
+      function toggleForms() {
+            var toggleButton = document.getElementById("toggleButton");
+            var form1 = document.getElementById("form1");
+            var form2 = document.getElementById("form2");
+
+            if (toggleButton.checked) {
+                form1.style.display = "block";
+                form2.style.display = "none";
+            } else {
+                form1.style.display = "none";
+                form2.style.display = "block";
+            }
+        }
+  </script>
+  </body>
+</html>
+
