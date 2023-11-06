@@ -1,8 +1,8 @@
 const createError = require('http-errors');
 const path = require('path')
-//const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
 const express = require('express');
-//const session = require('express-session')
+const session = require('express-session')
 
 const indexRouter = require('./routes/index');
 const sqlRouter = require('./routes/sql');
@@ -11,10 +11,11 @@ const csrfRouter = require('./routes/csrf');
 //express middleware setup
 const app = express();
 
-/*
+
+
 //cookie-parsing middleware
 app.use(cookieParser());
-*/
+
 
 //body content parsing middleware
 app.use(express.urlencoded({ extended: false }));
@@ -24,10 +25,10 @@ app.use(express.json());
 //static content handling middleware
 app.use(express.static(path.join(__dirname, 'public')));
 
-/*
+
 //session middleware (transient session records)
 app.use(session({secret: 'FER WiM', resave: false, saveUninitialized: true}))
-*/
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

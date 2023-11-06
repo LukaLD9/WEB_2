@@ -5,8 +5,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1>CSRF</h1>
-    <h2>Lažiranje zahtjeva na drugom sjedištu (Cross Site Request Forgery)</h2>
+    <h1>Lažiranje zahtjeva na drugom sjedištu (Cross Site Request Forgery, CSRF)</h1>
     <hr>
     <a>
         Ostale opcije:
@@ -20,7 +19,84 @@
         </li>
       </ul>
     <hr>
-    
+
+    <% if (username) { %>
+      Vaše korisničko ime: <h2> <%= username %> </h2> <a href="/csrf/logout">Logout</a>
+      <br>
+      
+      <hr>
+      
+      <p>
+        <h3>Promjena korisničkog imena</h3>
+        <form action="/csrf/toggle" method="post">
+          Klikni na gumb za promjenu CSRF zaštite:
+          <input type="submit" value="CSRF">
+        </form>
+      </p>
+
+      <% if(isSecure) { %>
+        <div id="form2" style="display: block;">
+          <a>Onemogućen CSRF</a>
+          <form action="/csrf/change_username/secure" method="post">
+            <input type="text" name="new_username" id="new_username" placeholder="Unesi korisničko ime">
+            <input type="submit" value="Potvrdi">
+          </form>
+        </div>
+      <% } else { %>
+        <div id="form1" style="display: block;">
+          <a>Omogućen CSRF</a>
+          <form action="/csrf/change_username/" method="get">
+            <input type="text" name="new_username" id="new_username" placeholder="Unesi korisničko ime">
+            <input type="submit" value="Potvrdi">
+          </form>
+        </div>
+      <% } %>
+      
+      <hr>
+
+      <!-- button which load messages-->
+      <form action="/csrf/messages" method="get">
+        <input type="submit" value="Učitaj poruke">
+      </form>
+
+      <div>
+        <% if (messages) { %>
+          <h3>Poruke</h3>
+          <p>
+            <a>
+              <% if (messages.length > 0) { %>
+                <% for (var i = 0; i < messages.length; i++) { %>
+                  <p>
+                    <a>
+                      <% if (messages[i].author) { %>
+                        <b><%= messages[i].author %></b> je poslao <b><%- messages[i].text %></b>
+                      <% } else { %>
+                        Nemate novih poruka.
+                      <% } %>
+                    </a>
+                  </p>
+                <% } %>
+              <% } else { %>
+                Nemate novih poruka.
+              <% } %>
+            </a>
+          </p>
+        <% } %>
+      </div>
+
+    <% } else { %>
+    HINT: Prijavite se uz pomoć korisničkog imena <%= user.username %> i lozinke <%= user.password %>
+    <form action="/csrf" method="post">
+      <h2>Prijavi se</a> </h2>
+      <div class="input-field">
+          <input type="text" name="username" id="username" placeholder="Unesi korisničko ime">
+      </div>
+      <div class="input-field">
+          <input type="password" name="password" id="password" placeholder="Unesi lozinku">
+      </div>
+      <input type="submit" value="Potvrdi">
+    </form>
+    <% } %>
   </body>
 </html>
 

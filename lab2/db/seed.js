@@ -133,9 +133,11 @@ const sql_insert_match =
 
 let table_names = ['Users', 'Competition', 'Competitor', 'Match', 'Csrf_users']
 
-let tables = [sql_create_userinfo, sql_create_competition, sql_create_competitor, sql_create_match, sql_create_csrf_users]
+let tables = [sql_create_userinfo, sql_create_competition, sql_create_competitor, sql_create_match,
+  sql_create_csrf_users]
 
-let inserts = [sql_insert_userinfo, sql_insert_competition, sql_insert_competitor, sql_insert_match, sql_insert_csrf_users]
+let inserts = [sql_insert_userinfo, sql_insert_competition, sql_insert_competitor, sql_insert_match,
+  sql_insert_csrf_users]
 
 let indexes = []
 

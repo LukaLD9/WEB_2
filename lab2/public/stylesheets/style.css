@@ -1,10 +1,32 @@
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    font-size: larger;
-  }
-  input {
-    font-size: larger;
-  }
-  .input-text {
-    width: 35%;
-  }
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: larger;
+}
+
+input {
+  font-size: larger;
+}
+.input-text {
+  width: 35%;
+}
+
+.input-field {
+  margin: 0.4rem;
+}
+
+form input[type="submit"] {
+  background: linear-gradient(to left, #dd0c2b, #5213b7);
+  color: white;
+  border-radius: 4px;
+  margin: 0.2rem;
+  padding: 0.4rem;
+}
+
+/* lijevo je autor desno u istom redu tekst*/
+.message {
+  display: flex;
+  border: 2px solid #5213b7;
+  border-radius: 4px;
+  padding: 0.4rem;
+  margin: 0.2rem;
+}
