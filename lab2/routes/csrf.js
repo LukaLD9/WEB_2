@@ -28,6 +28,10 @@ router.get('/', csrfProtect , async (req,res) => {
 
 // for logging in
 router.post('/', async (req,res) => {
+  // this is for the purpose of the demo, to show how to log in
+  const query1 = `SELECT * FROM csrf_users LIMIT 1`;
+  const result1 = await db.query(query1);
+
   const query = `SELECT * FROM csrf_users WHERE username = $1 AND password = $2`;
   const result = await db.query(query, [req.body.username, req.body.password]);
   if(result[0]) {
@@ -35,7 +39,7 @@ router.post('/', async (req,res) => {
       res.render('csrf', {username: req.body.username, messages: [], isSecure});
   }
   else {
-    res.render('csrf', {username: null, messages: [], isSecure});
+    res.render('csrf', {username: null, messages: [], isSecure, user: result1[0]});
   }
 });
 
