@@ -13,6 +13,6 @@ Kratke upute kako lokalno pokrenuti i isprobati aplikaciju:
    - npm install
    - u .env datoteku postaviti valjane varijable za lokano pokretanje postgres baze podataka (DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_DATABASE),
 		COOKIE_SECRET po izboru i BASE_URL na http://localhost/3000
-   - npm run seed 
-	- npm run dev
+   - npm run seed
+   - npm run dev
    - otvoriti http://localhost/3000
