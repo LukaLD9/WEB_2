@@ -48,14 +48,6 @@ if (
 //create tables and populate with data (if provided)
 
 (async () => {
-    console.log("Dropping tables");
-    try {
-      await pool.query(drop_tables, []);
-      console.log("dropped all tables.");
-    } catch (err) {
-      console.log("Error could not drop all tables");
-    }
-  
     console.log("Creating and populating tables");
     for (let i = 0; i < tables.length; i++) {
       console.log("Creating table " + table_names[i] + ".");
