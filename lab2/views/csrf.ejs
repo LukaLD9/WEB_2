@@ -38,6 +38,8 @@
         <div id="form2" style="display: block;">
           <a>Onemogućen CSRF</a>
           <form action="/csrf/change_username/secure" method="post">
+            <% console.log(csrfToken) %>
+            <input type="hidden" name="_csrf" value="<%=csrfToken%>">
             <input type="text" name="new_username" id="new_username" placeholder="Unesi korisničko ime">
             <input type="submit" value="Potvrdi">
           </form>
