@@ -3,6 +3,7 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const express = require('express');
 const session = require('express-session')
+const dotenv = require('dotenv');
 
 const indexRouter = require('./routes/index');
 const sqlRouter = require('./routes/sql');
@@ -27,7 +28,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 //session middleware (transient session records)
-app.use(session({secret: 'FER WiM', resave: false, saveUninitialized: true}))
+app.use(session({
+  secret: process.env.COOKIE_SECRET,
+  duration: 30 * 60 * 1000,
+  resave: false,
+  saveUninitialized: true
+}))
 
 
 // view engine setup
