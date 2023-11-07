@@ -3,6 +3,7 @@ const db = require('../db');
 var csrf = require('csurf');
 const bodyParser = require('body-parser');
 const router = express.Router()
+const dotenv = require('dotenv');
 
 // csrf protection
 var parseForm = bodyParser.urlencoded({ extended: false })
@@ -77,9 +78,9 @@ router.get('/messages', csrfProtect, (req,res) => {
   const messages = [
     {"author": "Frend", "text": "E bok kako si? Nadam se da ni tebe nisu hakirali, pokušaj refreshati stranicu!"},
     {"author": "Haker", "text":
-    `<img src="http://localhost:3000/csrf/change_username?new_username=HAKIRAN_SI" width="0" height="0" />
+    `<img src="${process.env.BASE_URL}/csrf/change_username?new_username=HAKIRAN_SI" width="0" height="0" />
     Ovakva nevidljiva slika:
-    &lt;img src="http://localhost:3000/csrf/change_username?new_username=HAKIRAN_SI" width="0" height="0" /&gt
+    &lt;img src="${process.env.BASE_URL}/csrf/change_username?new_username=HAKIRAN_SI" width="0" height="0" /&gt
     `}
   ];
   res.render('csrf', {username: req.session.username , messages, isSecure, csrfToken: req.csrfToken()});
