@@ -15,8 +15,8 @@ const pool = new Pool({
   database: process.env.DB_DATABASE,
   password: process.env.DB_PASSWORD,
   port: process.env.DB_PORT,
-  connectionString: isProduction ? process.env.DB_URL : connectionString,
-  ssl: isProduction
+  connectionString: process.env.DB_URL,
+  ssl: true
 });
 
 const drop_tables = `DROP TABLE IF EXISTS Csrf_users;`
