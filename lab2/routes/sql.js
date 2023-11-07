@@ -9,7 +9,7 @@ router.get('/', (req,res) => {
   res.render('sql', {result: []})
 });
 
-
+// unsecure
 router.post('/', async (req,res) => {
   const query = 
   `SELECT competitor.name as competitor, competition.name as competition
@@ -22,7 +22,7 @@ router.post('/', async (req,res) => {
   res.render('sql', {result})
 });
 
-
+// secure
 router.post('/secure', async (req,res) => {
   if(typeof req.body.name != 'string') {
     res.send('Invalid input');

@@ -21,7 +21,7 @@
     <hr>
 
     <% if (username) { %>
-      Vaše korisničko ime: <h2> <%= username %> </h2> <a href="/csrf/logout">Logout</a>
+      Vaše korisničko ime: <h2> <%= username %> </h2> <a href="/csrf/logout">Odjavite se</a>
       <br>
       
       <hr>
@@ -29,7 +29,7 @@
       <p>
         <h3>Promjena korisničkog imena</h3>
         <form action="/csrf/toggle" method="post">
-          Klikni na gumb za promjenu CSRF zaštite:
+          Pristisnite gumb za promjenu CSRF zaštite:
           <input type="submit" value="CSRF">
         </form>
       </p>
