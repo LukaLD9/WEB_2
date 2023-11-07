@@ -6,6 +6,9 @@ const isProduction = process.env.NODE_ENV === "production";
 
 const connectionString = `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_DATABASE}`;
 
+console.log(isProduction)
+console.log(connectionString);
+
 const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -15,6 +18,8 @@ const pool = new Pool({
   connectionString: isProduction ? process.env.DB_URL : connectionString,
   ssl: isProduction
 });
+
+const drop_tables = `DROP TABLE IF EXISTS Csrf_users;`
 
 
 const sql_create_csrf_users =
@@ -26,7 +31,7 @@ const sql_create_csrf_users =
     );`
 
 const sql_insert_csrf_users =
-    `INSERT INTO Csrf_users(Username, Password) VALUES ('user1', '12345678');`
+    `INSERT INTO Csrf_users(Username, Password) VALUES ('user', '12345678');`
 
 let table_names = ['Csrf_users']
 
@@ -48,6 +53,14 @@ if (
 //create tables and populate with data (if provided)
 
 (async () => {
+  console.log("Dropping tables");
+  try {
+    await pool.query(drop_tables, []);
+    console.log("dropped all tables.");
+  } catch (err) {
+    console.log("Error could not drop all tables");
+  }
+
     console.log("Creating and populating tables");
     for (let i = 0; i < tables.length; i++) {
       console.log("Creating table " + table_names[i] + ".");
