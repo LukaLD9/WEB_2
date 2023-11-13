@@ -1,0 +1,10 @@
+canvas {
+    display: block;
+    margin: 0 auto;
+    border: 1px solid black;
+}
+
+p {
+    text-align: center;
+    font: 20px sans-serif;
+}
