@@ -3,7 +3,7 @@ const ASTEROID_COUNT = 20;
 const ASTEROID_MIN_SIZE = 20;
 const ASTEROID_MAX_SIZE = 40;
 const ASTEROID_MIN_SPEED = 2;
-const ASTEROID_MAX_SPEED = 7;
+const ASTEROID_MAX_SPEED = 6;
 const ASTEROID_COLORS = ["#808080", "#A9A9A9", "#C0C0C0", "#D3D3D3", "#DCDCDC"]; // pet nijansi sive
 
 const SPACESHIP_WIDTH = 30;
