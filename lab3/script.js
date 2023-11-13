@@ -2,8 +2,8 @@
 const ASTEROID_COUNT = 20;
 const ASTEROID_MIN_SIZE = 20;
 const ASTEROID_MAX_SIZE = 40;
-const ASTEROID_MIN_SPEED = 2;
-const ASTEROID_MAX_SPEED = 6;
+const ASTEROID_MIN_SPEED = 1;
+const ASTEROID_MAX_SPEED = 5;
 const ASTEROID_COLORS = ["#808080", "#A9A9A9", "#C0C0C0", "#D3D3D3", "#DCDCDC"]; // pet nijansi sive
 
 const SPACESHIP_WIDTH = 30;
@@ -48,8 +48,8 @@ var myGameArea = {
 
         // kreiraj platno
         this.canvas.id = "myGameCanvas"
-        this.canvas.width = window.innerWidth * 0.85;
-        this.canvas.height = window.innerHeight * 0.85;
+        this.canvas.width = window.innerWidth * 0.90;
+        this.canvas.height = window.innerHeight * 0.80;
         this.canvas.style.border = "1px solid #000000";
         this.context = this.canvas.getContext("2d");
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
@@ -213,9 +213,9 @@ function updateGameArea() {
             if(timer > highscore){
                 localStorage.setItem("highscore", timer);
                 myGameArea.highscoreDisplay.innerHTML = "Highscore: " + timer;
-                alert("Igra je gotova!\nTvoje vrijeme " + timeParser(timer) + "\nNovi najbolji rezultat!");
+                alert("Igra je gotova!\nTvoje vrijeme je: " + timeParser(timer) + "\nNovi najbolji rezultat!");
             } else {
-                alert("Igra je gotova!\nTvoje vrijeme " + timeParser(timer) + ".\nNajbolje vrijeme: " + timeParser(highscore) + ".");
+                alert("Igra je gotova!\nTvoje vrijeme je: " + timeParser(timer) + "\nNajbolje vrijeme je: " + timeParser(highscore));
             }
             window.location.reload();
         }
