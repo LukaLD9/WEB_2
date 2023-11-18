@@ -1,5 +1,5 @@
 // konstante
-const REBOUND = true; // zastavica koja omogućuje odbijanje asteroida od rubova platna
+const REBOUND = false; // zastavica koja omogućuje odbijanje asteroida od rubova platna
 const ASTEROID_COUNT = 20; // za fiksno stvaranje asteroida, nema brisanja jer se odbijaju od rubova
 const ASTEROID_SPAWN_TIME = 200; // za dinamičko stvaranje asteroida
 const ASTEROID_DELETE_TIME = 20000; // za dinamičko brisaje asteroida
