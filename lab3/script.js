@@ -1,5 +1,9 @@
 // konstante
-const ASTEROID_COUNT = 20;
+const REBOUND = true; // zastavica koja omogućuje odbijanje asteroida od rubova platna
+const ASTEROID_COUNT = 20; // za fiksno stvaranje asteroida, nema brisanja jer se odbijaju od rubova
+const ASTEROID_SPAWN_TIME = 200; // za dinamičko stvaranje asteroida
+const ASTEROID_DELETE_TIME = 20000; // za dinamičko brisaje asteroida
+
 const ASTEROID_MIN_SIZE = 20;
 const ASTEROID_MAX_SIZE = 40;
 const ASTEROID_MIN_SPEED = 1;
@@ -22,10 +26,24 @@ function startGame() {
     myGameArea.start();
     // kreiraj svemirski brod
     spaceship = new Spaceship();
-    // kreiraj asteroide
-    for (var i = 0; i < ASTEROID_COUNT; i++) {
+
+    if(REBOUND){
+        // kreiraj asteroide fiksnog broja
+        for (var i = 0; i < ASTEROID_COUNT; i++) {
+            var asteroid = new Asteroid();
+            asteroids.push(asteroid);
+        }
+    } else {
+        // kreiraj asteroide dinamički
+        setInterval(function() {
         var asteroid = new Asteroid();
-        asteroids.push(asteroid);
+            asteroids.push(asteroid);
+        }, ASTEROID_SPAWN_TIME);
+
+        // izbriši stare asteroide za dovoljno vrijeme da prođu preko platna
+        setInterval(function() {
+            asteroids.splice(0, 10);
+        }, ASTEROID_DELETE_TIME);
     }
     // inicializiraj timer i highscore
     timer = 0;
@@ -165,16 +183,22 @@ class Asteroid {
         ctx.restore(); 
     }
     newPos() {
-        if (this.x - this.width / 2 < 0)
-            this.speed_x = Math.floor(Math.random() * (ASTEROID_MAX_SPEED - ASTEROID_MIN_SPEED + 1) + ASTEROID_MIN_SPEED);
-        else if ((this.x + this.width / 2) >= myGameArea.canvas.width) 
-            this.speed_x = -Math.floor(Math.random() * (ASTEROID_MAX_SPEED - ASTEROID_MIN_SPEED + 1) + ASTEROID_MIN_SPEED);
-        if (this.y - this.height / 2 < 0)
-            this.speed_y = -Math.floor(Math.random() * (ASTEROID_MAX_SPEED - ASTEROID_MIN_SPEED + 1) + ASTEROID_MIN_SPEED);
-        else if ((this.y + this.height / 2) >= myGameArea.canvas.height) 
-            this.speed_y = Math.floor(Math.random() * (ASTEROID_MAX_SPEED - ASTEROID_MIN_SPEED + 1) + ASTEROID_MIN_SPEED);
-        this.x += this.speed_x;
-        this.y -= this.speed_y;
+        if(REBOUND){
+            if (this.x - this.width / 2 < 0)
+                this.speed_x = Math.floor(Math.random() * (ASTEROID_MAX_SPEED - ASTEROID_MIN_SPEED + 1) + ASTEROID_MIN_SPEED);
+            else if ((this.x + this.width / 2) >= myGameArea.canvas.width) 
+                this.speed_x = -Math.floor(Math.random() * (ASTEROID_MAX_SPEED - ASTEROID_MIN_SPEED + 1) + ASTEROID_MIN_SPEED);
+            if (this.y - this.height / 2 < 0)
+                this.speed_y = -Math.floor(Math.random() * (ASTEROID_MAX_SPEED - ASTEROID_MIN_SPEED + 1) + ASTEROID_MIN_SPEED);
+            else if ((this.y + this.height / 2) >= myGameArea.canvas.height) 
+                this.speed_y = Math.floor(Math.random() * (ASTEROID_MAX_SPEED - ASTEROID_MIN_SPEED + 1) + ASTEROID_MIN_SPEED);
+            this.x += this.speed_x;
+            this.y -= this.speed_y;
+        } else {
+            this.x += this.speed_x;
+            this.y += this.speed_y;
+        }
+        
     }
 }
 
