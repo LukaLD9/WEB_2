@@ -1,0 +1,10 @@
+.headers {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+    color:goldenrod;
+    font-family: serif;
+}
