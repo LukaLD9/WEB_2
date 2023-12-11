@@ -5,10 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>MyVoiceRecorder</title>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-            rel="stylesheet"
-        />
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&family=Roboto+Slab&display=swap" rel="stylesheet">
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -16,7 +13,7 @@
         />
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
         <link rel="stylesheet" href="../css/site.css" />
-        <link rel="manifest" href="../manifest.json" />
+        <link rel="manifest" href="manifest.json" />
     </head>
 
     <body>
@@ -49,23 +46,15 @@
                 <i class="bi bi-bell"></i>
             </button>
         </div>
-        <div id="snaps">
-            <template id="snapTemplate">
-                <div class="d-flex flex-column align-items-center p-1 shadow p-3 mb-2 bg-white rounded">
-                    <img class="img-fluid" src="tbd" />
-                    <h3>title</h3>
-                </div>
-            </template>
+
+        <div class="d-flex flex-column align-items-center">
+            <h1>My voice records</h1>
         </div>
 
-        <p>
-            This is a demo of a PWA that uses the MediaRecorder API to record audio
-        </p>
-
         <div id="records">
-            <template id="snapTemplate">
+            <template id="audioTemplate">
                 <div class="d-flex flex-column align-items-center p-1 shadow p-3 mb-2 bg-white rounded">
-                    <img class="img-fluid" src="tbd" />
+                    <audio controls src="tbd"></audio>
                     <h3>title</h3>
                 </div>
             </template>
@@ -73,13 +62,41 @@
 
         <script>
             navigator.serviceWorker
-                .register("../js/sw.js", { type: "module" })
+                .register("./sw.js", { type: "module" })
                 .then((reg) => console.log("SW registered!", reg))
                 .catch((err) =>
                     console.error("Error registering service worker", err)
                 );
+
+            fetch("/records")
+                .then((res) => {
+                    console.log("res", res);
+                    if (res.ok) {
+                        res.json().then((data) => {
+                            console.log("data", data);
+                            data.files.forEach((fileName) => {
+                                console.log("appending", fileName);
+                                let recordsDiv = document.querySelector("#records");
+                                let template =
+                                    document.querySelector("#audioTemplate");
+                                var clone = template.content.cloneNode(true);
+                                let audio = clone.querySelector("audio");
+                                audio.src = "/uploads/" + fileName;
+                                let title = clone.querySelector("h3");
+                                title.textContent = fileName
+                                    .replaceAll("_", " ");
+                                recordsDiv.appendChild(clone);
+                            });
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+
+
         </script>
-        <script src="../js/push.js"></script>
+        <script src="push.js"></script>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             crossorigin="anonymous"

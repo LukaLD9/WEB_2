@@ -1,13 +1,11 @@
-console.log('sw.js loaded')
-
-import { del, entries } from "./idb-keyval.js";
+import { del, entries } from "/modules/idb-keyval/dist/index.js";
 const filesToCache = [
     "/",
     "manifest.json",
     "index.html",
     "offline.html",
     "404.html",
-    "https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap",
+    "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&family=Roboto+Slab&display=swap",
     "https://fonts.gstatic.com/s/firasans/v11/va9E4kDNxMZdWfMOD5Vvl4jLazX3dA.woff2",
     "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
 ];
@@ -78,23 +76,21 @@ self.addEventListener("fetch", (event) => {
 
 self.addEventListener("sync", function (event) {
     console.log("Background sync!", event);
-    if (event.tag === "sync-snaps") {
-        event.waitUntil(syncSnaps());
+    if (event.tag === "sync-records") {
+        event.waitUntil(syncRecords());
     }
 });
 
-/*
-let syncSnaps = async function () {
-    
+let syncRecords = async function () {
     entries().then((entries) => {
         entries.forEach((entry) => {
-            let snap = entry[1]; //  Each entry is an array of [key, value].
+            let record = entry[1]; //  Each entry is an array of [key, value].
             let formData = new FormData();
-            formData.append("id", snap.id);
-            formData.append("ts", snap.ts);
-            formData.append("title", snap.title);
-            formData.append("image", snap.image, snap.id + ".png");
-            fetch("/saveSnap", {
+            formData.append("id", record.id);
+            formData.append("ts", record.ts);
+            formData.append("title", record.title);
+            formData.append("audio", record.audio, record.id + ".mp3");
+            fetch("/upload", {
                 method: "POST",
                 body: formData,
             })
@@ -114,8 +110,6 @@ let syncSnaps = async function () {
         });
     });
 };
-
-*/
 
 self.addEventListener("notificationclick", function (event) {
     let notification = event.notification;

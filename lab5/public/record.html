@@ -5,10 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>MyVoiceRecorder</title>
-        <link
-            href="https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-            rel="stylesheet"
-        />
+        <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&family=Roboto+Slab&display=swap" rel="stylesheet">
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
@@ -44,16 +41,16 @@
             </div>
         </div>
     </nav>
+    
     <div class="container-fluid mt-3">
         <div class="row">
             <div class="col-12">
-                <h1>Record</h1>
+                <h1>Record your voice:</h1>
             </div>
             <audio-recorder bars="40" state="idle" view="waveform"></audio-recorder>
         </div>
     </div>
-    <!--<script type="module" src="/modules/@dannymoerkerke/audio-recorder/src/audio-recorder.js"></script>-->
-    <script type="module" src="./js/record.js"></script>
+    <script type="module" src="record.js"></script>
     <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             crossorigin="anonymous"
