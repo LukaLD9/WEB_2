@@ -56,7 +56,7 @@ app.post('/upload', function (req, res) {
         } else {
             res.json({
                 success: true,
-                file: req.body.id
+                id: req.body.id
             });
             await sendPushNotifications(req.body.title);
         }

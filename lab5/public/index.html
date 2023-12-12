@@ -84,6 +84,7 @@
                                 audio.src = "/uploads/" + fileName;
                                 let title = clone.querySelector("h3");
                                 title.textContent = fileName
+                                    .substring(24)
                                     .replaceAll("_", " ");
                                 recordsDiv.appendChild(clone);
                             });

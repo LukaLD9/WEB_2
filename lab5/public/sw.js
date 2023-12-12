@@ -75,8 +75,10 @@ self.addEventListener("fetch", (event) => {
 });
 
 self.addEventListener("sync", function (event) {
+    console.log("sync event taggggggg", event.tag);
     console.log("Background sync!", event);
     if (event.tag === "sync-records") {
+        console.log("Syncing records...");
         event.waitUntil(syncRecords());
     }
 });
@@ -85,6 +87,7 @@ let syncRecords = async function () {
     entries().then((entries) => {
         entries.forEach((entry) => {
             let record = entry[1]; //  Each entry is an array of [key, value].
+            console.log("Syncing record:", record);
             let formData = new FormData();
             formData.append("id", record.id);
             formData.append("ts", record.ts);
