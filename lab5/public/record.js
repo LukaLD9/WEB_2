@@ -24,7 +24,7 @@ myAudioRecorder.AudioRecorder.prototype.saveFile = async function (file) {
         { id,
           ts,
           title: name,
-          audio: file
+          audio: file,
       });
       navigator.serviceWorker.ready.then((sw) => {
         sw.sync.register("sync-records");
@@ -37,20 +37,3 @@ myAudioRecorder.AudioRecorder.prototype.saveFile = async function (file) {
   }
 
 };
-
-
-
-
-
-
-    // return
-    // const response = await fetch('/upload', {
-    //   method: 'POST',
-    //   body: formData
-    // });
-
-    // if (response.ok) {
-    //   console.log('File uploaded successfully!');
-    // } else {
-    //   console.error('Failed to upload file.');
-    // }

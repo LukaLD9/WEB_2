@@ -6,7 +6,7 @@ const filesToCache = [
     "offline.html",
     "404.html",
     "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&family=Roboto+Slab&display=swap",
-    "https://fonts.gstatic.com/s/firasans/v11/va9E4kDNxMZdWfMOD5Vvl4jLazX3dA.woff2",
+  //  "https://fonts.gstatic.com/s/firasans/v11/va9E4kDNxMZdWfMOD5Vvl4jLazX3dA.woff2",
     "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
 ];
 
@@ -53,12 +53,13 @@ self.addEventListener("fetch", (event) => {
                 //     event.request.url
                 // );
                 return fetch(event.request).then((response) => {
-                    // console.log("response.status = " + response.status);
                     if (response.status === 404) {
                         return caches.match("404.html");
                     }
+                    if (response.status === 206) {
+                        return response;
+                    }
                     return caches.open(staticCacheName).then((cache) => {
-                        // console.log(">>> Caching: " + event.request.url);
                         cache.put(event.request.url, response.clone());
                         return response;
                     });
@@ -75,10 +76,8 @@ self.addEventListener("fetch", (event) => {
 });
 
 self.addEventListener("sync", function (event) {
-    console.log("sync event taggggggg", event.tag);
     console.log("Background sync!", event);
     if (event.tag === "sync-records") {
-        console.log("Syncing records...");
         event.waitUntil(syncRecords());
     }
 });

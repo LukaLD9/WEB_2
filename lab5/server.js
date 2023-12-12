@@ -5,7 +5,7 @@ const fs = require("fs");
 const fse = require("fs-extra")
 const webpush = require('web-push');
 const app = express();
-const httpPort = 1234;
+const httpPort = 2348;
 
 app.use(express.json());
 
@@ -74,7 +74,7 @@ app.get('/records', function (req, res) {
 
 
 let subscriptions = [];
-const SUBS_FILENAME = 'subscriptions.json';
+const SUBS_FILENAME = 'subscriptions2.json';
 try {
     if(!fs.existsSync(SUBS_FILENAME)) fs.writeFileSync(SUBS_FILENAME, '');
     subscriptions = JSON.parse(fs.readFileSync(SUBS_FILENAME));
@@ -94,8 +94,8 @@ app.post("/saveSubscription", function(req, res) {
 
 async function sendPushNotifications(recordTitle) {
     webpush.setVapidDetails('mailto:luka.slugecic@gmail.com',
-    'BPa35VQfc449aXomwZQVP7kbbnKFnr3uTn8ceHDWJRCGl2DZmTjARWWbMYymP_GMwCyAz7DMLOAam5duJrpFx94',
-    'lsPZJigaEfOdJ5AQpjDRlS0hnsjxa8MyCYvsUgtw7JM'
+    'BPiLeBBpjD2qLgnAwQwLO2SakzABZxWcMN6kxiDQ-fHTJDedvDVJNVmJepu6lvtWcEXA8WuWNyAld8LjAe7aqRQ',
+    'rUj6ouv6NRRYZDdVzGYYBuqtIu7BgoXn1C78WtXyQ0Y'
     );
 
     subscriptions.forEach(async sub => {
