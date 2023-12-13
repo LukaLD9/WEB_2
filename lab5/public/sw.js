@@ -9,7 +9,7 @@ const filesToCache = [
     "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
 ];
 
-const staticCacheName = "static-cache-v2";
+const staticCacheName = "static-cache";
 
 self.addEventListener("install", (event) => {
     event.waitUntil(
