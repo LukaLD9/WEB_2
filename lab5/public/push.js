@@ -52,12 +52,12 @@ async function setupPushSubscription() {
             });
             if (res.ok) {
                 alert(
-                    "Yay, subscription generated and saved:\n" +
+                    "Subscription generated and saved:\n" +
                         JSON.stringify(sub)
                 );
             }
         } else {
-            alert("You are alreay subscribed:\n" + JSON.stringify(sub));
+            alert("You are already subscribed:\n" + JSON.stringify(sub));
         }
     } catch (error) {
         console.log(error);

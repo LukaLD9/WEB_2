@@ -5,7 +5,6 @@ const fs = require("fs");
 const fse = require("fs-extra")
 const webpush = require('web-push');
 const app = express();
-const httpPort = 2348;
 
 app.use(express.json());
 
@@ -74,7 +73,7 @@ app.get('/records', function (req, res) {
 
 
 let subscriptions = [];
-const SUBS_FILENAME = 'subscriptions2.json';
+const SUBS_FILENAME = 'subscriptions.json';
 try {
     if(!fs.existsSync(SUBS_FILENAME)) fs.writeFileSync(SUBS_FILENAME, '');
     subscriptions = JSON.parse(fs.readFileSync(SUBS_FILENAME));
@@ -113,8 +112,16 @@ async function sendPushNotifications(recordTitle) {
 }
 
 
+const externalUrl = process.env.RENDER_EXTERNAL_URL;
+const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 5000;
 
-app.listen(httpPort, function () {
-    console.log(`HTTP listening on port: ${httpPort}`);
-    console.log(`http://localhost:${httpPort}`);
-});
+if(externalUrl){
+  const hostname = '0.0.0.0';
+  app.listen(port, hostname, () => {
+    console.log(`Server running at http://${hostname}:${port}/ and from outside on ${externalUrl}`);
+  });
+} else {
+  app.listen(port, () => {
+    console.log(`Server running at http://localhost:${port}/`);
+  });
+}

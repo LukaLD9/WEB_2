@@ -6,14 +6,12 @@ const filesToCache = [
     "offline.html",
     "404.html",
     "https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&family=Roboto+Slab&display=swap",
-  //  "https://fonts.gstatic.com/s/firasans/v11/va9E4kDNxMZdWfMOD5Vvl4jLazX3dA.woff2",
     "https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css",
 ];
 
 const staticCacheName = "static-cache-v2";
 
 self.addEventListener("install", (event) => {
-    console.log("Attempting to install service worker and cache static assets");
     event.waitUntil(
         caches.open(staticCacheName).then((cache) => {
             return cache.addAll(filesToCache);
@@ -22,11 +20,7 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", (event) => {
-    console.log("**************************************");
-    console.log("**   Activating new service worker... **");
-    console.log("**************************************");
     const cacheWhitelist = [staticCacheName];
-    // Ovako možemo obrisati sve ostale cacheve koji nisu naš
     event.waitUntil(
         caches.keys().then((cacheNames) => {
             return Promise.all(
@@ -44,39 +38,27 @@ self.addEventListener("fetch", (event) => {
     event.respondWith(
         caches
             .match(event.request)
-            .then((response) => {
-                if (response) {
-                    // console.log("Found " + event.request.url + " in cache!");
-                    //return response;
+            .then(async () => {
+                const response = await fetch(event.request);
+
+                if (response.status === 404) {
+                    return caches.match("404.html");
                 }
-                // console.log("----------------->> Network request for ",
-                //     event.request.url
-                // );
-                return fetch(event.request).then((response) => {
-                    if (response.status === 404) {
-                        return caches.match("404.html");
-                    }
-                    if (response.status === 206) {
-                        return response;
-                    }
-                    return caches.open(staticCacheName).then((cache) => {
-                        cache.put(event.request.url, response.clone());
-                        return response;
-                    });
-                });
+                if (response.status === 206) {
+                    return response;
+                }
+                const cache = await caches.open(staticCacheName);
+                cache.put(event.request.url, response.clone());
+                return response;
             })
             .catch((error) => {
                 console.log("Error", event.request.url, error);
-                // ovdje možemo pregledati header od zahtjeva i možda vratiti različite fallback sadržaje
-                // za različite zahtjeve - npr. ako je zahtjev za slikom možemo vratiti fallback sliku iz cachea
-                // ali zasad, za sve vraćamo samo offline.html:
                 return caches.match("offline.html");
             })
     );
 });
 
 self.addEventListener("sync", function (event) {
-    console.log("Background sync!", event);
     if (event.tag === "sync-records") {
         event.waitUntil(syncRecords());
     }
@@ -85,8 +67,7 @@ self.addEventListener("sync", function (event) {
 let syncRecords = async function () {
     entries().then((entries) => {
         entries.forEach((entry) => {
-            let record = entry[1]; //  Each entry is an array of [key, value].
-            console.log("Syncing record:", record);
+            let record = entry[1];
             let formData = new FormData();
             formData.append("id", record.id);
             formData.append("ts", record.ts);
@@ -99,7 +80,6 @@ let syncRecords = async function () {
                 .then(function (res) {
                     if (res.ok) {
                         res.json().then(function (data) {
-                            console.log("Deleting from idb:", data.id);
                             del(data.id);
                         });
                     } else {
@@ -115,9 +95,6 @@ let syncRecords = async function () {
 
 self.addEventListener("notificationclick", function (event) {
     let notification = event.notification;
-    // mogli smo i definirati actions, pa ovdje granati s obzirom na:
-    // let action = event.action;
-    console.log("notification", notification);
     event.waitUntil(
         clients.matchAll().then(function (clis) {
             clis.forEach((client) => {
@@ -130,11 +107,9 @@ self.addEventListener("notificationclick", function (event) {
 });
 
 self.addEventListener("notificationclose", function (event) {
-    console.log("notificationclose", event);
 });
 
 self.addEventListener("push", function (event) {
-    console.log("push event", event);
 
     var data = { title: "title", body: "body", redirectUrl: "/" };
 

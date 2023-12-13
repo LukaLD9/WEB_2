@@ -28,9 +28,13 @@ myAudioRecorder.AudioRecorder.prototype.saveFile = async function (file) {
       });
       navigator.serviceWorker.ready.then((sw) => {
         sw.sync.register("sync-records");
-      });
+      }).then(() => {
+        window.location.href = "/";
+      })
+      
     } else {
-      alert("TODO - vaš preglednik ne podržava bckg sync...");
+      alert("Your browser does not support background sync, please use a different browser.");
+      return false;
     }
   } catch (error) {
     console.error('Error uploading file:', error);
