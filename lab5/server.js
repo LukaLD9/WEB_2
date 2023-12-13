@@ -94,8 +94,8 @@ app.post("/saveSubscription", function(req, res) {
 
 async function sendPushNotifications(recordTitle) {
     webpush.setVapidDetails('mailto:luka.slugecic@gmail.com',
-    'BFlDIfDHbEtLDKR9TkMdwhmtaur7oZAydcH7WDLEeJgttM_PjT2cLGZwbv-Sk5MVWaj-9P7TKnttVtwWdYuTpkw',
-    '0SIsJ4p9VtMu02UAfEQG46bCrPlfokOY3g3Iv9AaJ40'
+    'BEec4ImACUxKI_WPUNLmTKoD8IkVrG11A4JQE_vR2GCorHj43CKTz5eTxV49FyNovFzRUo0tDs48-Po5PtLk7As',
+    'R5Ng0awQwl9n3bX8KepBv55pMByf4Ei9jwVXXEKkx-Q'
     );
 
     subscriptions.forEach(async sub => {
