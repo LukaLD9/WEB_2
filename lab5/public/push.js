@@ -36,7 +36,7 @@ async function setupPushSubscription() {
         let reg = await navigator.serviceWorker.ready;
         let sub = await reg.pushManager.getSubscription();
         if (sub === null) {
-            var publicKey = 'BL2MpuKh4s9170WfVNSsCrk1FRwlITtPEpl-bQFjydPavLxJFPNnU6U9fFBU0Jy6rUNUDNbeqXj95YnqhDH2U2g';
+            var publicKey = 'BFlDIfDHbEtLDKR9TkMdwhmtaur7oZAydcH7WDLEeJgttM_PjT2cLGZwbv-Sk5MVWaj-9P7TKnttVtwWdYuTpkw';
             sub = await reg.pushManager.subscribe({
                 userVisibleOnly: true,
                 applicationServerKey: urlBase64ToUint8Array(publicKey)
