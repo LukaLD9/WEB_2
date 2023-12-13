@@ -51,12 +51,11 @@ async function setupPushSubscription() {
             });
             if (res.ok) {
                 alert(
-                    "Subscription generated and saved:\n" +
-                        JSON.stringify(sub)
+                    "Thank you for subscribing to our push notifications!\nYou will never miss a new record again!"
                 );
             }
         } else {
-            alert("You are already subscribed:\n" + JSON.stringify(sub));
+            alert("C'mon man, you are already subscribed!\nRock on!");
         }
     } catch (error) {
         console.log(error);
