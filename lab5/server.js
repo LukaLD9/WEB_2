@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const fse = require("fs-extra")
 const webpush = require('web-push');
+require("dotenv").config();
 const app = express();
 
 app.use(express.json());
@@ -93,8 +94,8 @@ app.post("/saveSubscription", function(req, res) {
 
 async function sendPushNotifications(recordTitle) {
     webpush.setVapidDetails('mailto:luka.slugecic@gmail.com',
-    'BPiLeBBpjD2qLgnAwQwLO2SakzABZxWcMN6kxiDQ-fHTJDedvDVJNVmJepu6lvtWcEXA8WuWNyAld8LjAe7aqRQ',
-    'rUj6ouv6NRRYZDdVzGYYBuqtIu7BgoXn1C78WtXyQ0Y'
+    process.env.VAPID_PUBLIC_KEY,
+    process.env.VAPID_PRIVATE_KEY
     );
 
     subscriptions.forEach(async sub => {
@@ -113,7 +114,7 @@ async function sendPushNotifications(recordTitle) {
 
 
 const externalUrl = process.env.RENDER_EXTERNAL_URL;
-const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 5000;
+const port = externalUrl && process.env.PORT ? parseInt(process.env.PORT) : 5001;
 
 if(externalUrl){
   const hostname = '0.0.0.0';

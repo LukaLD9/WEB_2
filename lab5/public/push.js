@@ -36,8 +36,7 @@ async function setupPushSubscription() {
         let reg = await navigator.serviceWorker.ready;
         let sub = await reg.pushManager.getSubscription();
         if (sub === null) {
-            var publicKey =
-                'BPiLeBBpjD2qLgnAwQwLO2SakzABZxWcMN6kxiDQ-fHTJDedvDVJNVmJepu6lvtWcEXA8WuWNyAld8LjAe7aqRQ';
+            var publicKey = process.env.VAPID_PUBLIC_KEY;
             sub = await reg.pushManager.subscribe({
                 userVisibleOnly: true,
                 applicationServerKey: urlBase64ToUint8Array(publicKey)
