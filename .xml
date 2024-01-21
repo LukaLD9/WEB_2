@@ -1,0 +1,147 @@
+<?xml version="1.0"?>
+<CAT>
+  <NAME>Izzy</NAME>
+  <BREED>Siamese</BREED>
+  <AGE>6</AGE>
+  <ALTERED>yes</ALTERED>
+  <DECLAWED>no</DECLAWED>
+  <LICENSE>Izz138bod</LICENSE>
+  <OWNER>Colin Wilcox</OWNER>
+</CAT>
+
+<xsd:element name="CAT">  
+  <xsd:complexType>  
+    <xsd:sequence>
+      <xsd:element name="NAME" type="xsd:string"/>
+      <xsd:element name="BREED" type="xsd:string"/>
+      <xsd:element name="AGE" type="xsd:positiveInteger"/>
+      <xsd:element name="ALTERED" type="xsd:boolean"/>
+      <xsd:element name="DECLAWED" type="xsd:boolean"/>
+      <xsd:element name="LICENSE" type="xsd:string"/>
+      <xsd:element name="OWNER" type="xsd:string"/>        
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<!DOCTYPE CAT [
+<!ELEMENT CAT (NAME, BREED, AGE, ALTERED, DECLAWED, LICENSE, OWNER)>
+    <!ELEMENT NAME (#PCDATA)>
+    <!ELEMENT BREED (#PCDATA)>
+    <!ELEMENT AGE (#PCDATA)>
+    <!ELEMENT ALTERED (#PCDATA)>
+    <!ELEMENT DECLAWED (#PCDATA)>
+    <!ELEMENT LICENSE (#PCDATA)>
+    <!ELEMENT OWNER (#PCDATA)>
+]>
+
+
+<schema xmlns="http://purl.oclc.org/dsdl/schematron">
+ <title>A Schematron Mini-Schema for Schematron</title>
+ <ns prefix="sch" uri="http://purl.oclc.org/dsdl/schematron">
+ <pattern>
+   <rule context="sch:schema">
+     <assert test="sch:pattern"
+     >A schema contains patterns.</assert>
+     <assert test="sch:pattern/sch:rule[@context]"
+     >A pattern is composed of rules.
+     These rules should have context attributes.</assert>
+     <assert test="sch:pattern/sch:rule/sch:assert[@test] 
+      or sch:pattern/sch:rule/sch:report[@test]"
+     >A rule is composed of assert and report statements. 
+     These rules should have a test attribute.</assert>
+   </rule>
+ </pattern>
+</schema>
+
+<predmet kod="T12345" cijena ="125.25"/>
+
+
+<assert test="start-with(@Kod, 'T')">
+    Kod mora početi znakom T
+</assert>
+<report test="xs:double(@Cijena) gt 100">
+    Pronađena je visoka cijena!
+</report>
+
+<Artikl>
+   <Naziv>Primjer</Naziv>
+   <Kod>T123</Kod>
+   <Cijena>125</Cijena>
+</Artikl>
+
+<rule context="Artikl">
+    <assert test="start-with(@Kod, 'T')">
+       Kod mora početi znakom T
+    </assert>
+    <report test="xs:double(@Cijena) gt 100">
+ Pronađena je visoka cijena!
+    </report>
+</rule>
+
+<rule context="Trgovina/Artikl"> 
+
+<rule context="Artikl[@Naziv eq 'Primjer']">
+
+<pattern name="Provjeri strukturu">
+
+<pattern name="Provjeri strukturu">
+    <rule context="Artikl">
+        <assert test="Naziv">
+            Naziv je obavezan
+        </assert>
+        <assert test="count(*) = 3">
+            Artikl mora sadržavati točno 3 elementa
+        </assert>
+    </rule>
+</pattern>
+<pattern name="Provjeri meduovisnost">
+    <rule context="Artikl">
+        <assert test="(@Naziv = 'Primjer'
+         and start-with(@Kod, 'P'))">
+            Artikl naziva Primjer mora početi znakom T
+        </assert>
+    </rule>
+</pattern>
+
+<rule context="Trgovina/Artikl"> 
+
+<rule context="Artikl[@Naziv eq 'Primjer']">
+
+<phase id="samo-pocetna">
+    <active pattern="pocetna-pravila"/>
+</phase>
+
+<phase id="pocetna-i-napredna">
+    <active pattern="pocetna-pravila"/>
+    <active pattern="napredna-pravila"/>
+</phase>
+
+<rule context="vrijeme">
+    <let name="sat" value="number(substring(., 1, 2))"/>
+    <let name="minuta" value="number(substring(., 4, 2))"/>
+    <let name="sekunda" value="number(substring(., 7, 2))"/>
+    <assert test='string-length(.) = 8 and substring(., 3, 1) = ":" and substring(., 6, 1) = ":"'>
+        Vrijeme mora biti u formatu hh:mm:ss.
+    </assert>
+    <assert test="$sat &gt;= 0 and $sat &lt; 24">
+        Sat mora biti u rasponu od 0 do 23.
+    </assert>
+    <assert test="$minuta &gt;= 0 and $minuta &lt; 60">
+        Minute moraju biti u rasponu od 0 do 59.
+    </assert>
+    <assert test="$sekunda &gt;= 0 and $sekunda &lt; 60">
+        Sekunde moraju biti u rasponu od 0 do 59.
+    </assert>
+</rule>
+
+<assert test="$sat &gt;= 0 and $sat &lt; 24">
+        Neispravna vrijednost sata: <value-of select="$hour"/>.
+        Vrijednost mora biti u rasponu od 0 do 23.
+</assert>
+
+<schema> <pattern> <rule>
+
+<vrijeme>24:33:26</vrijeme> 
+
+Assertion fails: "Neispravna vrijednost sata: 24. Vrijednost mora biti u rasponu od 0 do 23."
+
